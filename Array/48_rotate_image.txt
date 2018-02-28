@@ -1,0 +1,18 @@
+//first reverse up to down, then swap the symmetry
+//先上下翻转，再轴对称
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        reverse(matrix.begin(),matrix.end());
+        int si=matrix[0].size();
+        for(int i=0;i<si;++i)
+        {
+            for(int j=i+1;j<si;++j)
+            {
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=temp;
+            }
+        }
+    }
+};

@@ -1,0 +1,43 @@
+//蛮力求解
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> re;
+        for(int i=0;i<nums.size();++i)
+        {
+            int toFind=target-nums[i];
+            for(int j=i+1;j<nums.size();++j)
+            {
+                if(nums[j]==toFind)
+                {
+                    re.push_back(i);
+                    re.push_back(j);
+                }
+            }
+        }
+        return re;
+    }
+};
+
+//hash表
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> re;
+        unordered_map<int,int> numsHash;
+        for(int i=0;i<nums.size();++i)
+        {
+            int toFind=target-nums[i];
+            if(numsHash.find(toFind)!=numsHash.end())
+            {          
+                re.push_back(numsHash.find(toFind)->second);
+                re.push_back(i);
+            }
+            else
+            {
+                numsHash[nums[i]]=i;
+            }
+        }
+        return re;
+    }
+};

@@ -1,0 +1,26 @@
+//回溯法很典型的用法
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(candidates,re,temp,target,0);
+        return re;
+    }
+    
+    void backtrack(vector<int>& candidates,vector<vector<int>>& re,vector<int>& temp,int target,int start)
+    {
+        if(target<0) return;
+        if(target==0)
+        {
+            re.push_back(temp);
+            return;
+        }
+        for(int i=start;i<candidates.size();++i)
+        {
+            temp.push_back(candidates[i]);
+            backtrack(candidates,re,temp,target-candidates[i],i);
+            temp.pop_back();
+        }    
+    }
+};

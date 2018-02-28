@@ -1,0 +1,37 @@
+//先按照start排个序，然后依次比较end，如果后一个start<前一个的end，就要合并，否则的话不用合并
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    static bool compare(Interval i,Interval j)
+    {
+        return i.start<j.start;
+    }
+    vector<Interval> merge(vector<Interval>& intervals) {
+        vector<Interval> re;
+        if(intervals.size()==0)
+            return re;     
+        sort(intervals.begin(),intervals.end(),compare);
+        re.push_back(intervals[0]);
+        for(int i=0;i<intervals.size();++i)
+        {
+            if(intervals[i].start<=re.back().end)
+            {
+                int end=intervals[i].end>re.back().end?intervals[i].end:re.back().end;
+                re.back().end=end;
+            }
+            else
+            {
+                re.push_back(intervals[i]);
+            }
+        }
+        return re;
+    }
+};

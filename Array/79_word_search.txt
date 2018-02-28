@@ -1,0 +1,30 @@
+//递归加上位运算的小技巧，mask
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m=board.size();
+        if(m==0)
+            return false;
+        int n=board[0].size();
+        for(int i=0;i<m;++i)
+        {
+            for(int j=0;j<n;++j)
+            {
+                if(ifexist(board,word,m,n,i,j,0))
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    bool ifexist(vector<vector<char>> board,string word,int m,int n,int i,int j,int pos)
+    {
+        if(pos==word.size()) return true;
+        if(i<0||j<0||i>=m||j>=n) return false;
+        if(board[i][j]!=word[pos]) return false;
+        board[i][j]^=128;  //这个操作会让字母不是字母，而且字母的位都留着没有变，只是128的那一位变成了1.字母都是小于128的
+        bool exist=ifexist(board,word,m,n,i-1,j,pos+1)||ifexist(board,word,m,n,i+1,j,pos+1)||ifexist(board,word,m,n,i,j-1,pos+1)||ifexist(board,word,m,n,i,j+1,pos+1);
+        board[i][j]^=128; //这个操作变回字母，只是把128的那一位变回了0.这是一个mask的技巧
+        return exist;
+    }
+};

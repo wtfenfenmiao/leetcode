@@ -1,0 +1,47 @@
+//DP+BP,动态规划弄个表，外面的壳是回溯法，但是这个超时了.....
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        if(nums.size()==0)
+            return false;
+        vector<int> ifGood(nums.size(),0);  //0不知道，1能到达，2不能
+        ifGood[nums.size()-1]=1;
+        return canReach(0,nums,ifGood);
+    }
+    
+    bool canReach(int position,vector<int>& nums,vector<int>& ifGood)
+    {
+        if(ifGood[position]!=0)
+            return ifGood[position]==1?true:false;
+        int far=(position+nums[position])>=nums.size()?nums.size()-1:(position+nums[position]);
+        for(int i=far;i>position;--i)
+        {
+            if(canReach(i,nums,ifGood))
+            {
+                ifGood[position]=1;
+                return true;
+            }
+        }
+        ifGood[position]=2;
+        return false;
+    }
+};
+
+//谜一样的操作，从后往前找最左边的能到达末尾的index，然后只要能i+nums[i]大于当前的最左边的能到达末尾的index，这个数就可以到达末尾，也就是新的能到达末尾的最左边的index.....最后只要看第一个数是不是当前的最左边的能到达末尾的index
+//Iterating right-to-left, for each position we check if there is a potential jump that reaches a GOOD index (currPosition + nums[currPosition] >= leftmostGoodIndex). If we can reach a GOOD index, then our position is itself GOOD. Also, this new GOOD position will be the new leftmost GOOD index. Iteration continues until the beginning of the array. If first position is a GOOD index then we can reach the last index from the first position.
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        if(nums.size()==0)
+            return false;
+        int leftmostIndex=nums.size()-1;
+        for(int i=nums.size()-1;i>=0;--i)
+        {
+            if(i+nums[i]>=leftmostIndex)
+            {
+                leftmostIndex=i;
+            }
+        }
+        return leftmostIndex==0;
+    }
+};

@@ -1,0 +1,15 @@
+﻿//典型动态规划的问题，别用排列组合的算法，算了会哭的......太大了......
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> re(m,vector<int>(n,1));
+        for(int i=1;i<m;++i)
+        {
+            for(int j=1;j<n;++j)
+            {
+                re[i][j]=re[i-1][j]+re[i][j-1];
+            }
+        }
+        return re[m-1][n-1];
+    }
+};

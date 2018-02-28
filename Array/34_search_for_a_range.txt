@@ -1,0 +1,39 @@
+//二分查找......
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> re(2,-1);
+        if(nums.size()==0)
+            return re;
+        int lo=0;
+        int hi=nums.size()-1;
+        while(lo<hi)
+        {
+            int mid=(lo+hi)/2;
+            if(nums[mid]>=target)
+                hi=mid;
+            else
+                lo=mid+1;
+        }
+        if(nums[lo]==target)
+            re[0]=lo;
+        lo=0;
+        hi=nums.size()-1;
+        while(lo<hi)
+        {
+            int mid=(lo+hi)/2;
+            if(nums[mid]>target)
+                hi=mid;
+            else
+                lo=mid+1;
+        }
+        if(nums[lo]==target)
+        {
+            re[1]=lo;
+        }
+        else if(nums[lo-1]==target)
+            re[1]=lo-1;
+        return re;
+        
+    }
+};

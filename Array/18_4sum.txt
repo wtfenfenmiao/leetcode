@@ -1,0 +1,51 @@
+//思路和3sum基本一样
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> re;
+        if(nums.size()<4)
+            return re;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size()-3;++i)
+        {
+            if(i!=0&&nums[i]==nums[i-1])
+                continue;
+            for(int j=i+1;j<nums.size()-2;++j)
+            {
+                if(j!=i+1&&nums[j]==nums[j-1])
+                    continue;
+                int toFind=target-nums[i]-nums[j];
+                int lo=j+1;
+                int hi=nums.size()-1;
+                while(lo<hi)
+                {
+                    int sum=nums[lo]+nums[hi];
+                    if(sum==toFind)
+                    {
+                        vector<int> th;
+                        th.push_back(nums[i]);
+                        th.push_back(nums[j]);
+                        th.push_back(nums[lo]);
+                        th.push_back(nums[hi]);
+                        re.push_back(th);
+                        while(lo<hi&&nums[lo]==nums[lo+1]) ++lo;
+                        while(lo<hi&&nums[hi]==nums[hi-1]) --hi;
+                        ++lo;
+                        --hi;
+                    }
+                    else if(sum<toFind)
+                    {
+                        while(lo<hi&&nums[lo]==nums[lo+1]) ++lo;
+                        ++lo;
+                    }
+                    else
+                    {
+                        while(lo<hi&&nums[hi]==nums[hi-1]) --hi;
+                        --hi;
+                    }
+                }
+            }
+        }
+        return re;
+    }
+};

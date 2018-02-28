@@ -1,0 +1,67 @@
+//逻辑理清楚就行
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> re;
+        int row=matrix.size();
+        if(row==0)
+            return re;
+        int col=matrix[0].size();
+        vector<vector<bool>> seen(row,vector<bool>(col,false));
+        int dir=0;  //0123，右下左上
+        int i=0;
+        int j=0;
+        while(1)
+        {  
+            re.push_back(matrix[i][j]);
+            seen[i][j]=true;
+            switch(dir)
+            {
+                case 0:
+                    if(j+1<col&&(!seen[i][j+1])) 
+                        ++j;
+                    else
+                    {
+                        if(i+1>=row||seen[i+1][j])
+                            return re;
+                        ++i;
+                        dir=1;                  
+                    };
+                    break;
+                case 1:
+                    if(i+1<row&&(!seen[i+1][j])) 
+                        ++i;
+                    else
+                    {
+                        if(j-1<0||seen[i][j-1])
+                            return re;
+                        --j;
+                        dir=2;                  
+                    };
+                    break;
+                case 2:
+                    if(j-1>=0&&(!seen[i][j-1])) 
+                        --j;
+                    else
+                    {
+                        if(i-1<0||seen[i-1][j])
+                            return re;
+                        --i;
+                        dir=3;                  
+                    };
+                    break;
+                case 3:
+                    if(i-1>=0&&(!seen[i-1][j])) 
+                        --i;
+                    else
+                    {
+                        if(j+1>=col||seen[i][j+1])
+                            return re;
+                        ++j;
+                        dir=0;                  
+                    };
+                    break;
+            }     
+        }
+    }
+};

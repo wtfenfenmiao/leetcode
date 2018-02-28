@@ -1,0 +1,39 @@
+//找第一个左小于右的相邻组合a[i-1]和a[i],找到a[i-1]之后的最小的大于a[i-1]的数和a[i-1]交换，之后把a[i-1]之后的数调成降序
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int i=nums.size()-2;
+        while(i>=0&&nums[i]>=nums[i+1])
+        {
+            --i;
+        }
+        if(i!=-1)
+        {
+            int j=nums.size()-1;
+            while(nums[j]<=nums[i])
+            {
+                --j;
+            }
+            swap(nums,i,j);
+        }       
+        decrement(nums,i+1);
+    }
+    
+    void swap(vector<int>& nums,int i,int j)
+    {
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
+    }
+    
+    void decrement(vector<int>& nums,int i)
+    {
+        int j=nums.size()-1;
+        while(i<j)
+        {
+            swap(nums,i,j);
+            ++i;
+            --j;
+        }
+    }
+};

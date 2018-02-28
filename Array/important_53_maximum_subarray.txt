@@ -1,0 +1,18 @@
+//动态规划。maxSubArray(A, i) = maxSubArray(A, i - 1) > 0 ? maxSubArray(A, i - 1) : 0 + A[i]; 
+//其中，maxSubArray(A,i)是A中必须以i为结尾的最大子串
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int re=nums[0];
+        vector<int> dp(nums.size(),0);
+        dp[0]=nums[0];
+        for(int i=1;i<nums.size();++i)
+        {
+            dp[i]=dp[i-1]>0?dp[i-1]+nums[i]:nums[i];
+            re=max(re,dp[i]);
+        }
+        return re;
+    }
+};

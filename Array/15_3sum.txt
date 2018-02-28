@@ -1,0 +1,46 @@
+//先排个序。遍历一遍，把每一个值都当成第一个；每个i的时候，找后两个数的时候的从两头往中间找。防重复的话，每个重复的数字都跳过。就是让每次检查的都是不一样的数字，事先排好序的话，重复的数字先跳过就能实现了
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> re;
+        if(nums.size()<3)
+        {
+            return re;
+        }
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size()-2;++i)
+        {
+            if(i!=0&&nums[i]==nums[i-1])
+                continue;
+            int lo=i+1;
+            int hi=nums.size()-1;
+            int toFind=0-nums[i];
+            while(lo<hi)
+            {
+                int sum=nums[lo]+nums[hi];    
+                if(sum==toFind)
+                {
+                    vector<int> th;
+                    th.push_back(nums[i]);
+                    th.push_back(nums[lo]);
+                    th.push_back(nums[hi]);
+                    re.push_back(th);
+                    while(lo<hi&&nums[lo]==nums[lo+1]) ++lo;
+                    while(lo<hi&&nums[hi]==nums[hi-1]) --hi;
+                    ++lo;
+                    --hi;
+                }
+                else if(sum>toFind)
+                {
+                   --hi;
+                }
+                else
+                {
+                   ++lo;
+                }
+            }
+            
+        }
+        return re;
+    }
+};

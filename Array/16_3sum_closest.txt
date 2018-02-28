@@ -1,0 +1,29 @@
+//和3sum思路差不多
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        if(nums.size()<3)
+            return 0;
+        int re=nums[0]+nums[1]+nums[2];
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size()-2;++i)
+        {
+            int toFind=target-nums[i];
+            int lo=i+1;
+            int hi=nums.size()-1;
+            int sum=0;
+            while(lo<hi)
+            {
+                sum=nums[lo]+nums[hi];
+                if(abs(sum+nums[i]-target)<abs(re-target))
+                    re=sum+nums[i];
+                if(sum==toFind)
+                    return target;
+                else if(sum<toFind)
+                    ++lo;
+                else --hi;
+            }
+        }
+        return re;
+    }
+};

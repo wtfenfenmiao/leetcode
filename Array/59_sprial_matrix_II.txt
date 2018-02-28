@@ -1,0 +1,73 @@
+//和54：sprial matrix差不多，逻辑写清楚就行......
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> re(n,vector<int>(n,0));
+        if(n==0)
+            return re;
+        int i=0;
+        int j=0;
+        int dir=0;//0123,右下左上
+        int numnow=1;
+        while(1)
+        {
+            re[i][j]=numnow;
+            ++numnow;
+            switch(dir)
+            {
+                case 0:
+                    if(j+1<n&&re[i][j+1]==0)
+                    {
+                        ++j;
+                    }
+                    else
+                    {
+                        if(i+1>=n||re[i+1][j]!=0)
+                            return re;
+                        ++i;
+                        dir=1;
+                    };
+                    break;
+                case 1:
+                    if(i+1<n&&re[i+1][j]==0)
+                    {
+                        ++i;
+                    }
+                    else
+                    {
+                        if(j-1<0||re[i][j-1]!=0)
+                            return re;
+                        --j;
+                        dir=2;
+                    };
+                    break;
+                 case 2:
+                    if(j-1>=0&&re[i][j-1]==0)
+                    {
+                        --j;
+                    }
+                    else
+                    {
+                        if(i-1<0||re[i-1][j]!=0)
+                            return re;
+                        --i;
+                        dir=3;
+                    };
+                    break;
+                 case 3:
+                    if(i-1>=0&&re[i-1][j]==0)
+                    {
+                        --i;
+                    }
+                    else
+                    {
+                        if(j+1>=n||re[i][j+1]!=0)
+                            return re;
+                        ++j;
+                        dir=0;
+                    };
+                    break;
+            }
+        }
+    }
+};

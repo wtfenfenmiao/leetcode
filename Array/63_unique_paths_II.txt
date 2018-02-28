@@ -1,0 +1,23 @@
+//动态规划的思路和62：unique paths差不多，这里用了一个小技巧扩出来一圈，所以就不用考虑特殊边界的问题了
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m=obstacleGrid.size();
+        if(m==0)
+            return 0;
+        int n=obstacleGrid[0].size();
+        vector<vector<int>> re(m+1,vector<int>(n+1,0));
+        re[0][1]=1;
+        for(int i=1;i<=m;++i)
+        {
+            for(int j=1;j<=n;++j)
+            {
+                if(obstacleGrid[i-1][j-1]!=1)
+                {
+                    re[i][j]=re[i-1][j]+re[i][j-1];
+                }
+            }
+        }
+        return re[m][n];
+    }
+};

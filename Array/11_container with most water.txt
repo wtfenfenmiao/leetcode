@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int re=0;
+        int i=0;
+        int j=height.size()-1;
+        while(i!=j)
+        {
+            int mi=min(height[i],height[j]);
+            re=max(re,mi*(j-i));   //可以少用点if else这里......
+            while(mi==height[i]&&i<j) ++i;
+            while(mi==height[j]&&i<j) --j;   
+        } 
+        return re;
+    }
+};
