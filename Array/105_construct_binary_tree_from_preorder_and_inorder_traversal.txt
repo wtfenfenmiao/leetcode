@@ -1,0 +1,42 @@
+//递归。
+//Hi guys, this is my Java solution. I read this post, which is very helpful.
+The basic idea is here:
+Say we have 2 arrays, PRE and IN.
+Preorder traversing implies that PRE[0] is the root node.
+Then we can find this PRE[0] in IN, say it’s IN[5].
+Now we know that IN[5] is root, so we know that IN[0] - IN[4] is on the left side, IN[6] to the end is on the right side.
+Recursively doing this on subarrays, we can build a tree out of it :)
+Hope this helps.
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        return helper(0,0,inorder.size()-1,preorder,inorder);
+    }
+    
+    TreeNode* helper(int preStart,int inStart,int inEnd,vector<int>& preorder,vector<int>& inorder){
+        if(preStart>=preorder.size()||inStart>inEnd)
+            return NULL;
+        int rootval=preorder[preStart];
+        int inIndex;
+        for(int i=inStart;i<=inEnd;++i)
+        {
+            if(inorder[i]==rootval)
+                inIndex=i;
+        }
+        TreeNode* root=new TreeNode(rootval);
+        root->left=helper(preStart+1,inStart,inIndex-1,preorder,inorder);
+        root->right=helper(preStart+inIndex-inStart+1,inIndex+1,inEnd,preorder,inorder);
+        return root;
+    }
+};

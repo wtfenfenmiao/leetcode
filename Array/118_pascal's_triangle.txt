@@ -1,0 +1,25 @@
+//一层层推就行......
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> re;
+        if(numRows==0)
+            return re;
+        vector<int> fir;
+        fir.push_back(1);
+        re.push_back(fir);
+        for(int i=1;i<numRows;++i)
+        {
+            vector<int> temp;
+            for(int j=0;j<=i;++j)
+            {
+                if(j==0||j==i)
+                    temp.push_back(1);
+                else
+                    temp.push_back(re[i-1][j]+re[i-1][j-1]);
+            }
+            re.push_back(temp);
+        }
+        return re;
+    }
+};
