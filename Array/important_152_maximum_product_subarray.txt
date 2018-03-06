@@ -1,0 +1,20 @@
+//一个DP（动态规划），找以当前数字为结尾的最大的乘积和最小的乘积，然后再往下走
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int imax=nums[0];
+        int imin=nums[0];
+        int re=nums[0];
+        for(int i=1;i<nums.size();++i)
+        {
+            if(nums[i]<0)
+                swap(imax,imin);
+            imax=max(imax*nums[i],nums[i]);
+            imin=min(imin*nums[i],nums[i]);
+            re=max(re,imax);
+        }
+        return re;
+    }
+};

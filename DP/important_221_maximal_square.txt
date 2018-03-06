@@ -1,0 +1,104 @@
+//我自己想的dp，比较麻烦，每找到一个1，以当前元素为右下角的最大的square的边长，由以这个元素左上角元素为右下角的最大square边长决定。但是因为这两个square差一个行还有一个列，所以要判断这个行和这个列
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m=matrix.size();
+        if(m==0)
+            return 0;
+        int n=matrix[0].size();
+        vector<vector<int>> re(m,vector<int>(n,0));
+        int maxre=0;
+        for(int i=0;i<m;++i)
+        {
+            if(matrix[i][0]=='1')
+            {
+                re[i][0]=1;
+                maxre=1;
+            }
+               
+        }
+        for(int j=1;j<n;++j)
+        {
+            if(matrix[0][j]=='1')
+            {
+                re[0][j]=1;
+                maxre=1;
+            }
+                
+        }
+        for(int i=1;i<m;++i)
+        {
+            for(int j=1;j<n;++j)
+            {
+                int k=0;
+                while(k<=re[i-1][j-1])
+                {
+                    if(matrix[i-k][j]!='1'||matrix[i][j-k]!='1')
+                    {
+                        break;
+                    }
+                    ++re[i][j];
+                    ++k;
+                }
+                maxre=max(maxre,re[i][j]);
+            }
+        }
+        return pow(maxre,2);
+    }
+};
+
+
+//第二种dp，dp[i][j]是以i，j为右下角元素的最大的square的边长，dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m=matrix.size();
+        if(m==0)
+            return 0;
+        int n=matrix[0].size();
+        vector<vector<int>> re(m+1,vector<int>(n+1,0));
+        int maxre=0;
+        for(int i=1;i<=m;++i)
+        {
+            for(int j=1;j<=n;++j)
+            {
+                if(matrix[i-1][j-1]=='0')
+                    continue;
+                re[i][j]=min(min(re[i-1][j],re[i][j-1]),re[i-1][j-1])+1;
+                maxre=max(maxre,re[i][j]);
+            }
+        }
+        return pow(maxre,2);
+        
+    }
+};
+
+//上面那种dp的空间还可以优化
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m=matrix.size();
+        if(m==0)
+            return 0;
+        int n=matrix[0].size();
+        vector<int> re(n+1,0);
+        int maxre=0;
+        int prev=0;
+        for(int i=0;i<m;++i)
+        {
+            for(int j=0;j<n;++j)
+            {
+                int temp=re[j+1];
+                if(matrix[i][j]!='0')
+                {      
+                    re[j+1]=min(min(re[j],re[j+1]),prev)+1;
+                    maxre=max(maxre,re[j+1]);
+                }
+                else
+                    re[j+1]=0;     //因为空间是重复利用的，所以一定要记得，这里加上这个，重新写回0......
+                prev=temp;
+            }
+        }
+        return pow(maxre,2);
+    }
+};

@@ -1,0 +1,26 @@
+//绕圈，cycle replacement
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if(nums.size()<=1)
+            return;
+        int si=nums.size();
+        int count=0;
+        for(int start=0;count<nums.size();++start)
+        {
+            int prev=nums[start];
+            int current=(start+k)%si;
+            int temp;
+            while(current!=start)
+            {
+                temp=nums[current];
+                nums[current]=prev;
+                prev=temp;
+                current=(current+k)%si;
+                ++count;
+            }
+            nums[current]=prev;
+            ++count;
+        }
+    }
+};

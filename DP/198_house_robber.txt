@@ -1,0 +1,19 @@
+//dp，状态是以当前数字为结尾的最大值，可能是前一个数字的最大值，也可能是前前最大值+这个数字。这个状态还得想一下
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int si=nums.size();
+        if(si==0)
+            return 0;
+        if(si==1)
+            return nums[0];
+        vector<int> re(si+1,0);
+        re[0]=0;
+        re[1]=nums[0];
+        for(int i=2;i<=si;++i)
+        {
+            re[i]=max(re[i-1],re[i-2]+nums[i-1]);
+        }
+        return re[si];
+    }
+};

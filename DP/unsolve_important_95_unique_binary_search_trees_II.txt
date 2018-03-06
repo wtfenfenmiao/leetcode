@@ -1,0 +1,51 @@
+﻿//递归，DP感觉太复杂了，由于返回的vector都得有空间，所以每个都要new
+//DP还没弄懂
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        if(n==0)
+        {
+            vector<TreeNode*>* re=new vector<TreeNode*>();
+            return *re;
+        }
+        return *genTree(1,n);
+    }
+    
+    vector<TreeNode*>* genTree(int start,int end)
+    {
+        vector<TreeNode*>* list=new vector<TreeNode*>();
+        if(start>end)
+        {
+            (*list).push_back(NULL);
+        }
+        else
+        {
+            for(int i=start;i<=end;++i)
+            {
+                vector<TreeNode*> left=*genTree(start,i-1);
+                vector<TreeNode*> right=*genTree(i+1,end);
+                for(auto le:left)
+                {
+                    for(auto ri:right)
+                    {
+                        TreeNode* root=new TreeNode(i);
+                        root->right=ri;
+                        root->left=le;
+                        (*list).push_back(root);
+                    }
+                }
+            }
+            
+        }
+        return list;
+    }
+};

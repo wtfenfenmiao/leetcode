@@ -1,0 +1,33 @@
+//也是dp了，一个是回文的字符串，去掉左右两边也是回文，一直去直到中间和中间两个。所以dp的话就是从一个或者两个中间元素往外扩
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string re;
+        if(s.size()==0)
+            return re;
+        int len=0;
+        int start=0;
+        for(int i=0;i<s.size();++i)
+        {
+            int len1=toFind(s,i,i);
+            int len2=toFind(s,i,i+1);
+            int lentemp=max(len1,len2);
+            if(lentemp>len)
+            {
+                len=lentemp;
+                start=i-(len-1)/2;
+            }
+        }
+        return s.substr(start,len);
+    }
+    
+    int toFind(string& s,int i,int j)
+    {
+        while(i>=0&&j<s.size()&&s[i]==s[j])
+        {
+            --i;
+            ++j;
+        }
+        return j-i-1;
+    }
+};

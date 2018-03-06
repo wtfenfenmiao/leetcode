@@ -1,0 +1,25 @@
+//用了house robber，这里是robline
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        if(nums.size()==1)
+            return nums[0];
+        return max(robline(nums,0,nums.size()-2),robline(nums,1,nums.size()-1));
+    }
+    
+    int robline(vector<int>& nums,int start,int end)
+    {
+        if(end==start)
+            return nums[start];
+        int si=end-start+1;
+        vector<int> re(si+1,0);
+        re[1]=nums[0+start];
+        for(int i=2;i<=si;++i)
+        {
+            re[i]=max(re[i-1],re[i-2]+nums[i-1+start]);
+        }
+        return re[si];
+    }
+};

@@ -29,3 +29,30 @@ public:
         return re[m-1][n-1];
     }
 };
+
+
+//优化了下代码，把空间变小了，只用一行长度为n的数组就行，不用m行n列的数组了，dp的思路是一样的
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size();
+        if(m==0)
+            return 0;
+        int n=grid[0].size();
+        vector<int> re(n,0);
+        re[0]=grid[0][0];
+        for(int i=1;i<n;++i)
+        {
+            re[i]=re[i-1]+grid[0][i];
+        }
+        for(int i=1;i<m;++i)
+        {
+            re[0]+=grid[i][0];
+            for(int j=1;j<n;++j)
+            {
+                re[j]=min(re[j],re[j-1])+grid[i][j];
+            }
+        }
+        return re[n-1];
+    }
+};

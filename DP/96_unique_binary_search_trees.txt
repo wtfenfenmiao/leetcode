@@ -1,0 +1,23 @@
+//G[n]是n个数的查找树数
+//F[i]是以第i个数为root的查找树数
+//G[n]=F[0]+F[1]+...F[n-1]
+//F[i]=G[i]*G[n-1-i]
+//G[n]=G[0]*G[n-1]+....G[n-1]*G[0]
+class Solution {
+public:
+    int numTrees(int n) {
+        if(n<=0)
+            return n;
+        vector<int> re(n+1,0);
+        re[0]=1;
+        re[1]=1;
+        for(int i=2;i<=n;++i)
+        {
+            for(int j=0;j<i;++j)
+            {
+                re[i]+=re[j]*re[i-1-j];
+            }
+        }
+        return re[n];
+    }
+};

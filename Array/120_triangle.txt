@@ -1,0 +1,16 @@
+//动态规划，空间复杂度是O(n)用一行数组覆盖着存
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        vector<int> re;
+        re=triangle.back();
+        for(int i=triangle.size()-2;i>=0;--i)
+        {
+            for(int j=0;j<triangle[i].size();++j)
+            {
+                re[j]=min(re[j],re[j+1])+triangle[i][j];
+            }
+        }
+        return re[0];
+    }
+};

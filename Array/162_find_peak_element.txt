@@ -1,0 +1,12 @@
+//这个没啥技巧感觉......
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int re=0;
+        while(re<nums.size()-1&&nums[re]<nums[re+1])
+            ++re;
+        return re;          
+    }
+};

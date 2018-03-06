@@ -1,0 +1,48 @@
+//方法1
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        vector<int> re(2,0);
+        for(int i=0;i<numbers.size();++i)
+        {
+            int toFind=target-numbers[i];
+            for(int j=i+1;j<numbers.size()&&numbers[j]<=toFind;++j)
+            {
+                if(numbers[j]==toFind)
+                {
+                    re[0]=i+1;
+                    re[1]=j+1;
+                }
+            }
+        }
+        return re;
+    }
+};
+
+//方法2
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        vector<int> re(2,0);
+        if(numbers.size()<=1)
+            return re;
+        int start=0;
+        int end=numbers.size()-1;
+        while(end>start)
+        {
+            int sum=numbers[start]+numbers[end];
+            if(sum==target)
+            {
+                re[0]=start+1;
+                re[1]=end+1;
+                return re;
+            }
+            else if(sum<target)
+            {
+                ++start;
+            }
+            else
+                --end;
+        }
+    }
+};
