@@ -1,0 +1,54 @@
+//第一种dp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        if(s.size()==0)
+            return false;
+        vector<bool> re(s.size()+1,false);
+        re[0]=true;
+        for(int i=1;i<=s.size();++i)
+        {
+            for(auto word:wordDict)
+            {
+                if(word.size()>i)
+                    continue;
+                if(re[i-word.size()]&&s.substr(i-word.size(),word.size())==word)
+                {
+                    re[i]=true;
+                    break;
+                }
+            }
+        }
+        return re[s.size()];
+    }
+};
+
+//第二种dp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        if(s.size()==0)
+            return false;
+        vector<bool> re(s.size()+1,false);
+        re[0]=true;
+        vector<string>::iterator it;
+        for(int i=1;i<=s.size();++i)
+        {
+            for(int j=0;j<i;++j)
+            {
+                if(re[j])
+                {
+                    string sub=s.substr(j,i-j);
+                    it=find(wordDict.begin(),wordDict.end(),sub);
+                    if(it!=wordDict.end())
+                    {
+                        re[i]=true;
+                        break;
+                    }
+                    
+                }
+            }
+        }
+        return re[s.size()];
+    }
+};

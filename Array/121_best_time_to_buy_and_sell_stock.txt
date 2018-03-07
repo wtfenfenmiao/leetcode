@@ -1,4 +1,4 @@
-//看代码就知道思路了，one pass
+﻿//看代码就知道思路了，one pass
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -14,5 +14,34 @@ public:
                 maxprofit=max(maxprofit,prices[i]-minprice);
         }
         return maxprofit;
+    }
+};
+
+
+//自己想的麻麻烦烦版本，唉
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.size()==0)
+            return 0;
+        int peak=prices[0];
+        int valley=prices[0];
+        int re=0;
+        int i=1;
+        while(i<prices.size())
+        {
+            while(i<prices.size()&&prices[i]<prices[i-1])
+            {
+                ++i;
+            }
+            valley=min(valley,prices[i-1]);
+            while(i<prices.size()&&prices[i]>=prices[i-1])
+            {
+                ++i;
+            }
+            peak=prices[i-1];
+            re=max(re,peak-valley);
+        }
+        return re;
     }
 };
