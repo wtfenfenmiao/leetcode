@@ -1,0 +1,26 @@
+//硬排就行，不过逻辑得想清楚，死循环害死人......
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        vector<string> re(numRows);
+        int count=s.size();
+        int now=0;
+        while(now<count)
+        {
+            for(int i=0;(now<count)&&(i<numRows);++i)
+            {
+                re[i].append(s,now++,1);
+            }
+            for(int i=numRows-2;(now<count)&&(i>0);--i)  //这个判断要老命，如果这里是numRow-1,上面是i<numRows-1,那numRow=1的时候就是火葬场......
+            {
+                re[i].append(s,now++,1);
+            }
+        }
+        string re1="";
+        for(int i=0;i<numRows;++i)
+        {
+            re1.append(re[i]);
+        }
+        return re1;
+    }
+};
