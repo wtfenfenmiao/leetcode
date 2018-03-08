@@ -1,0 +1,21 @@
+//这是一个要学习的套路
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        if(n<=1)
+            return n;
+        int n2=0;
+        int n3=0;
+        int n5=0;
+        vector<int> re(n,0);
+        re[0]=1;
+        for(int i=1;i<n;++i)
+        {
+            re[i]=min(min(re[n2]*2,re[n3]*3),re[n5]*5);
+            if(re[i]==re[n2]*2) ++n2;
+            if(re[i]==re[n3]*3) ++n3;
+            if(re[i]==re[n5]*5) ++n5;
+        }
+        return re[n-1];
+    }
+};
