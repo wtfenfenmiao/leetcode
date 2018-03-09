@@ -1,0 +1,31 @@
+//自己写的，就是一层一层往上数
+class Solution {
+public:
+    string countAndSay(int n) {
+        string s="1";
+        if(n==0)
+            return "";
+        for(int i=1;i<n;++i)
+        {
+            char pre=s[0];
+            int count=1;
+            int j=1;
+            string temp;
+            while(j<=s.size())
+            {
+                while(j<s.size()&&s[j]==pre)
+                {
+                    ++count;
+                    ++j;
+                }
+                temp+=(count+'0');
+                temp+=pre;
+                count=1;
+                if(j<s.size()) pre=s[j];
+                ++j;
+            }
+            s=temp;
+        }
+        return s;
+    }
+};

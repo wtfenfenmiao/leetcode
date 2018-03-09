@@ -1,0 +1,18 @@
+//字符串的各种奇技淫巧
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int jinwei=0;
+        int i=a.size()-1;
+        int j=b.size()-1;
+        string re;
+        while(i>=0||j>=0||jinwei==1)
+        {
+            jinwei+=(i>=0?a[i--]-'0':0);
+            jinwei+=(j>=0?b[j--]-'0':0);
+            re=char(jinwei%2+'0')+re;
+            jinwei=jinwei/2;        
+        }
+        return re;
+    }
+};

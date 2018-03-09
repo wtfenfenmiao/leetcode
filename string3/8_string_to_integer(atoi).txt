@@ -1,0 +1,28 @@
+//要考虑的特殊情况：
+//前面有空格；
+//第一个符号是+和-；
+//无效输入（+-2这种，还有只有+这种，这些不用额外考虑，保证base是0，输出的时候一乘就行了）
+//越界（INT_MIN的值的绝对值虽然比INT_MAX大了1，但也不用额外管）
+class Solution {
+public:
+    int myAtoi(string str) {
+        int base=0;
+        int sign=1;
+        int i=0;
+        while(str[i]==' ') ++i;
+        if(str[i]=='-'||str[i]=='+')
+        {
+            sign*=((str[i++]=='+')*2-1);
+        }      
+        while(i<str.size()&&str[i]<='9'&&str[i]>='0')
+        {
+            if(base>INT_MAX/10||(base==INT_MAX/10&&str[i]-'0'>7))
+            {
+                if(sign==1) return INT_MAX;
+                else return INT_MIN;
+            }
+            base=base*10+str[i++]-'0';
+        }
+        return base*sign;
+    }
+};
