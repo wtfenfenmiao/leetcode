@@ -1,0 +1,26 @@
+//把每个词sort一下，一样的词sort后是一样的
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string,vector<string> > re;
+        unordered_map<string,vector<string> >::iterator it;
+        for(int i=0;i<strs.size();++i)
+        {           
+            string temp=strs[i];
+            sort(temp.begin(),temp.end());
+            it=re.find(temp);
+            if(it!=re.end())
+            {
+                it->second.push_back(strs[i]);
+            }
+            else
+                re.insert(pair<string,vector<string> >(temp,vector<string>(1,strs[i])));
+        }
+        vector<vector<string> > re1;
+        for(it=re.begin();it!=re.end();++it)
+        {
+            re1.push_back(it->second);
+        }
+        return re1;
+    }
+};
