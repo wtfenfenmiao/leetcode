@@ -1,0 +1,18 @@
+//意思是把整个路径变成最简单的表示办法。这个思路是，..是返回上级，.是没变化就在这一级，和空效果一样；然后用getline的办法，找到/和/之间的字符串，这样如果有//的话就是空了，不会有啥影响，///也是......
+class Solution {
+public:
+    string simplifyPath(string path) {
+        string re;
+        vector<string> strsave;
+        string temp;
+        stringstream ss(path);
+        while(getline(ss,temp,'/'))
+        {
+            if(temp==""||temp==".") continue;
+            if(temp==".."&&!strsave.empty()) strsave.pop_back();
+            else if(temp!="..") strsave.push_back(temp);
+        }
+        for(auto i:strsave) re+='/'+i;
+        return re.empty()?"/":re;
+    }
+};
