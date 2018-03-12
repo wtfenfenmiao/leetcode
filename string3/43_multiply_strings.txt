@@ -1,0 +1,28 @@
+//num[i]和num[j]相乘，结果在i+j位和i+j+1位。m位和n位相乘，结果小于等于m+n位。（用m乘以n+1位的1000这种，易知小于等于m+n位）
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        int m=num1.size();
+        int n=num2.size();
+        vector<int> renum(m+n,0);
+        for(int i=m-1;i>=0;--i)
+        {
+            for(int j=n-1;j>=0;--j)
+            {
+                int mul=(num1[i]-'0')*(num2[j]-'0');
+                renum[i+j+1]+=mul;
+                renum[i+j]+=renum[i+j+1]/10;
+                renum[i+j+1]%=10;
+            }
+        }
+        string re="";
+        for(auto i:renum)
+        {
+            if(!(re==""&&i==0))
+                re+=char(i+'0');
+        }
+        return re.empty()?"0":re;
+        
+        
+    }
+};

@@ -1,0 +1,49 @@
+//看答案秀操作1
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> re;
+        getPa(re,"",0,0,n);
+        return re;
+    }
+    
+    void getPa(vector<string>& re,string ansnow,int open,int close,int total)
+    {
+        if(ansnow.size()==2*total)
+        {
+            re.push_back(ansnow);
+            return;
+        }
+        if(open<total)
+        {
+            getPa(re,ansnow+"(",open+1,close,total);
+        }
+        if(close<open)
+        {
+            getPa(re,ansnow+")",open,close+1,total);
+        }
+            
+    }
+};
+
+//看答案秀操作2
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> re;
+        if(n==0)
+            re.push_back("");
+        for(int i=0;i<n;++i)
+        {
+            for(auto left:generateParenthesis(i))
+            {
+                for(auto right:generateParenthesis(n-1-i))
+                {
+                    re.push_back("("+left+")"+right);
+                }
+            }
+        }
+        return re;
+        
+    }
+};
