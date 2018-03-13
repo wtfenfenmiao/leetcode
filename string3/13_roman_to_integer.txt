@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        int re=0;
+        unordered_map<char,int> Find;
+        Find.insert(pair<char,int>('M',1000));
+        Find.insert(pair<char,int>('D',500));
+        Find.insert(pair<char,int>('C',100));
+        Find.insert(pair<char,int>('L',50));
+        Find.insert(pair<char,int>('X',10));
+        Find.insert(pair<char,int>('V',5));
+        Find.insert(pair<char,int>('I',1));
+        int i;
+        for(i=0;i<s.size()-1;++i)
+        {
+            if(Find[s[i]]<Find[s[i+1]])
+                re-=Find[s[i]];
+            else
+                re+=Find[s[i]];
+        }
+        re+=Find[s[i]];
+        return re;
+    }
+};
+
+
+//¼òµ¥Ò»µã
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char,int> list={{'M',1000},{'D',500},{'C',100},{'L',50},{'X',10},{'V',5},{'I',1}};
+        int re=0;
+        int i=0;
+        for(i=0;i<s.size()-1;++i)
+        {
+            if(list[s[i]]<list[s[i+1]])
+                re-=list[s[i]];
+            else
+                re+=list[s[i]];
+        }
+        re+=list[s[i]];
+        return re;
+        
+    }
+};
