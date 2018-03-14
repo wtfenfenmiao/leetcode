@@ -1,0 +1,22 @@
+//这道题思路这样子的，要求inpalce，所以用一个totalIndex来标识当前有多少位是弄好的。比如前面可能有一堆空格这种，就是后面的往前面复制，所以要有一个当前弄好的多少位，还有s一共有多少位。
+//先把整个字符串倒过来，再把每个单词倒过来
+class Solution {
+public:
+    void reverseWords(string &s) {
+        reverse(s.begin(),s.end());
+        int totalIndex=0;
+        for(int i=0;i<s.size();++i)
+        {
+            if(s[i]!=' ')
+            {
+                if(totalIndex!=0) s[totalIndex++]=' ';  //这里是已经知道下一个词会有了，所以放个空格
+                int j=i;
+                while(j<s.size()&&s[j]!=' ') s[totalIndex++]=s[j++];    //这里这么理解，前面是有很多空格的，然后这个操作就是in place的，逐个往前写字符，覆盖掉前面的空格
+                reverse(s.begin()+totalIndex-(j-i),s.begin()+totalIndex);
+                i=j;
+            }
+        }
+        s.erase(s.begin()+totalIndex,s.end());
+    }
+};
+
