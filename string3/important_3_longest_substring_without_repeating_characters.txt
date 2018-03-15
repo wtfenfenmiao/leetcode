@@ -1,0 +1,51 @@
+//用滑动窗口，这种为了降时间复杂度，感觉用的办法都是双指针这类，弄一个i一个j，然后算差还是干什么
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_set<char> list;
+        int i=0;
+        int j=0;
+        int re=0;
+        while(i<s.size()&&j<s.size())
+        {
+            if(list.find(s[j])==list.end())
+            {
+                list.insert(s[j++]);
+                re=max(re,j-i);
+            }
+            else
+            {
+                list.erase(s[i++]);    //从i往前滑，直到滑过去和j重的那个
+            }
+        }
+        return re;
+    }
+};
+
+//这个是更快的滑动窗口，用hashmap
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int> maplist;
+        int i=0;
+        int re=0;
+        unordered_map<char,int>::iterator it;
+        for(int j=0;j<s.size();++j)
+        {
+            it=maplist.find(s[j]);
+            if(it!=maplist.end())
+            {
+                i=max(it->second+1,i);
+                maplist[it->first]=j;
+            }
+            else
+            {
+                maplist.insert(pair<char,int>(s[j],j));
+            }
+            
+            re=max(re,j-i+1);
+            
+        }
+        return re;
+    }
+};

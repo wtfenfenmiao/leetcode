@@ -1,0 +1,91 @@
+//re没初始化调了一小时，可得初始化啊朋友！
+//用栈
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> save;
+        int num=0;
+        char sign='+';
+        int re=0;
+        for(int i=0;i<=s.size();++i)
+        {
+                if(s[i]>='0'&&s[i]<='9')
+                   num=num*10+s[i]-'0';
+                else if(i==s.size()||s[i]!=' ')
+                {
+                    if(sign=='+')
+                    {
+                        cout<<"+:"<<num<<endl;
+                        save.push(num);
+                    }
+                    else if(sign=='-')
+                    {
+                        save.push(-num);
+                        cout<<"-:"<<num<<endl;
+                    }
+                    else if(sign=='/')
+                    {
+                        int temp=save.top();
+                        save.pop();
+                        save.push(temp/num);
+                        cout<<"/:"<<temp/num<<endl;
+                    }
+                    else
+                    {
+                        int temp=save.top();
+                        save.pop();
+                        save.push(temp*num);
+                        cout<<"*:"<<temp*num<<endl;
+                    }
+                    if(i<s.size())
+                    sign=s[i];
+                    num=0;
+                }        
+        }
+        
+        while(!save.empty())
+        {
+            cout<<save.top()<<endl;
+            re+=save.top();
+            save.pop();
+        }
+        return re;
+    }
+};
+
+
+//整理了一下
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> save;
+        int num=0;
+        int re=0;
+        char sign='+';
+        for(int i=0;i<=s.size();++i)
+        {
+            if(s[i]>='0'&&s[i]<='9')
+                num=num*10+s[i]-'0';
+            else if(i==s.size()||s[i]!=' ')
+            {
+                if(sign=='+')
+                    save.push(num);
+                else if(sign=='-')
+                    save.push(-num);
+                else if(sign=='/')
+                    save.top()/=num;
+                else
+                    save.top()*=num;
+                num=0;
+                if(i<s.size())
+                    sign=s[i];
+            }      
+        }
+        while(!save.empty())
+        {
+            re+=save.top();
+            save.pop();
+        }
+        return re;
+    }
+};

@@ -1,0 +1,32 @@
+//”√∂”¡–
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> re2;
+        if(digits.size()==0)
+            return re2;
+        unordered_map<char,string> button={{'1',"1"},{'2',"abc"},{'3',"def"},{'4',"ghi"},{'5',"jkl"},{'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"},{'0',"0"}};
+        queue<string> re;
+        re.push("");
+        for(int i=0;i<digits.size();++i)
+        {
+            string temp="";
+            while(!re.empty()&&re.front().size()==i)
+            {
+                temp=re.front();
+                re.pop();
+                for(int j=0;j<button[digits[i]].size();++j)
+                {
+                    re.push(temp+button[digits[i]][j]);
+                }
+            }
+        }
+       
+        while(!re.empty())
+        {
+            re2.push_back(re.front());
+            re.pop();
+        }
+        return re2;
+    }
+};
