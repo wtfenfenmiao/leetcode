@@ -1,0 +1,27 @@
+//移位的思路是对的
+//注意结果可能啥时候溢出
+//结果不溢出，别的用long long
+class Solution {
+public:
+    int divide(int dividend, int divisor) {   
+        if(divisor==0||dividend==INT_MIN&&divisor==-1)
+            return INT_MAX;
+        int re=0;
+        int flag=(dividend<0)^(divisor<0)?-1:1;
+        long long dividen=labs(dividend);
+        long long diviso=labs(divisor);
+        while(dividen>=diviso)
+        {
+            int temp=1;
+            long long divtemp=diviso;
+            while(divtemp<=(INT_MAX>>1)&&divtemp<=(dividen>>1))
+            {
+                divtemp=divtemp<<1;
+                temp=temp<<1;
+            }
+            re+=temp;
+            dividen-=divtemp;          
+        }
+        return re*flag;
+    }
+};

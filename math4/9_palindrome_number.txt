@@ -1,0 +1,35 @@
+//我的
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x<0)
+            return false;
+        int test=0;
+        int xtest=x;
+        while(xtest!=0)
+        {
+            test=test*10+xtest%10;
+            xtest/=10;
+        }
+        if(test==x)
+            return true;
+        return false;
+            
+    }
+};
+
+//然而这种算一半就行了
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x<0||(x!=0&&x%10==0))
+            return false;
+        int rever=0;
+        while(x>rever)
+        {
+            rever=rever*10+x%10;
+            x/=10;
+        }
+        return x==rever||x==rever/10;
+    }
+};
