@@ -1,0 +1,14 @@
+//这个不难，但是这个小逻辑真的折磨人......
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string re="";
+        while(n!=0)
+        {
+            int temp=(n-1)%26;
+            n=(n-1)/26;
+            re=char(temp+'A')+re;
+        }
+        return re;
+    }
+};

@@ -1,0 +1,42 @@
+//需要想一会这个逻辑
+//用long long是怕溢出
+//再考虑符号问题
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        if(numerator==0)
+            return "0";
+        string re="";
+        re+=((numerator<0)^(denominator<0))?"-":"";
+        long long num=labs(numerator);
+        long long den=labs(denominator);
+        re+=to_string(num/den);
+        num=num%den;
+        if(num==0)
+        {
+            return re;
+        }
+        re+='.';
+        num*=10;
+        unordered_map<int,int> fi;
+        while(num!=0)
+        {
+            if(fi.find(num)==fi.end())
+            {
+                fi[num]=re.size();
+                re+=to_string(num/den);
+                num%=den;
+                num*=10;
+            }
+            else
+            {
+                re.insert(fi.find(num)->second,"(");
+                re+=')';
+                return re;
+            }
+            
+        }
+        return re;
+        
+    }
+};
