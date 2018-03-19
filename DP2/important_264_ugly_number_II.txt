@@ -14,7 +14,7 @@ public:
             re[i]=min(min(re[n2]*2,re[n3]*3),re[n5]*5);
             if(re[i]==re[n2]*2) ++n2;
             if(re[i]==re[n3]*3) ++n3;
-            if(re[i]==re[n5]*5) ++n5;
+            if(re[i]==re[n5]*5) ++n5;      //不能用if else这种！！！！因为如果有两个一样的，那都得跳过去，否则下一个填的就会重
         }
         return re[n-1];
     }
