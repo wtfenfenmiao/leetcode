@@ -1,0 +1,19 @@
+//”√dp
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n<=0)
+            return 0;
+        vector<int> re(n+1,0);
+        for(int i=1;i<=n;++i)
+        {
+            re[i]=i;
+            for(int j=1;j*j<=i;++j)
+            {
+                re[i]=min(re[i],re[i-j*j]+1);
+            }
+        }
+        return re[n];
+            
+    }
+};

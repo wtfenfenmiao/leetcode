@@ -1,0 +1,10 @@
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int left=max(A,E);
+        int right=max(min(C,G),left);
+        int top=min(D,H);
+        int bottom=min(max(B,F),top);
+        return (C-A)*(D-B)+(H-F)*(G-E)-(top-bottom)*(right-left);
+    }
+};
