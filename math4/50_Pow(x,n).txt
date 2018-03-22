@@ -1,0 +1,20 @@
+//谜一样的溢出问题，一定要注意这些
+//用平方，就是变成2*2*2*2次方这种
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if(n==0)
+            return 1;
+        if(n==INT_MIN)
+        {
+            x=x*x;
+            n=n/2;
+        }
+        if(n<0)
+        {
+            n=-n;   //上面要加INT_MIN，否则的话这里负号会溢出
+            x=1/x;
+        }
+        return (n%2==0)?myPow(x*x,n/2):x*myPow(x*x,n/2);
+    }
+};

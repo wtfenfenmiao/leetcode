@@ -1,0 +1,33 @@
+//写一下，是有规律的，一共有n的阶乘种，然后从左往右排每一位
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        string re="";
+        if(n<=1)
+            return re+char(n+'0');    //省事的
+        string list="";
+        for(int i=1;i<=n;++i)         //做一个list，为了删除字符用，就是没定下来一位，就得从总的数字种删一个，而且还要保留位置信息
+        {
+            list+=char(i+'0');
+        }
+        int jiecheng=1;
+        int temp=n;
+        while(temp>=1)          //算个阶乘
+        {
+            jiecheng*=temp;
+            --temp;
+        }
+        k-=1;
+        while(list!="")
+        {
+            jiecheng/=n;
+            re+=list[k/jiecheng];         //每一位的数字到底是谁的计算
+            list.erase(k/jiecheng,1);
+            k%=jiecheng;
+            --n;
+            
+        }
+        return re;
+        
+    }
+};
