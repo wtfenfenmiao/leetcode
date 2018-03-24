@@ -1,0 +1,30 @@
+//快慢指针，这个思路学习一下
+class Solution {
+public:
+    bool isHappy(int n) {
+        int slow=n;
+        int fast=n;
+        do
+        {
+            slow=returnSquare(slow);
+            fast=returnSquare(fast);
+            fast=returnSquare(fast);
+        }
+        while(slow!=fast);
+        if(slow==1)             //这个if else可以换成return slow==1;
+            return true;
+        else
+            return false;
+    }
+    
+    int returnSquare(int num)
+    {
+        int re=0;
+        while(num!=0)
+        {
+            re+=(num%10)*(num%10);
+            num/=10;
+        }
+        return re;
+    }
+};
