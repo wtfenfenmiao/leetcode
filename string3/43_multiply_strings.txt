@@ -1,4 +1,4 @@
-//num[i]和num[j]相乘，结果在i+j位和i+j+1位。m位和n位相乘，结果小于等于m+n位。（用m乘以n+1位的1000这种，易知小于等于m+n位）
+//num[i]和num[j]相乘，结果在i+j位和i+j+1位（实际上是在i+j+1位，i+j位是i+j+1大于10的时候进位放的地方，其实正常思路直接会想到放在i+j位,进位进到i+j-1位，用i+j和i+j+1主要是因为怕最高位溢出......）。m位和n位相乘，结果小于等于m+n位。（用m乘以n+1位的1000这种，易知小于等于m+n位）
 class Solution {
 public:
     string multiply(string num1, string num2) {

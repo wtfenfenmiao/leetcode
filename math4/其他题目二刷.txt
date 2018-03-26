@@ -3,3 +3,5 @@ plus one
 add binary
 ugly number II
 Integer to Roman
+Roman to Integer
+multiply string

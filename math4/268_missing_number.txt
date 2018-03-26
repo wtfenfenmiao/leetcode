@@ -1,0 +1,47 @@
+//我想的，先排序再二分
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        int low=0;
+        int high=nums.size()-1;
+        while(low<high)
+        {
+            int mid=(low+high)/2;
+            if(nums[mid]!=mid)
+            {
+                high=mid;
+            }
+            else
+                low=mid+1;
+        }
+        return (nums[low]==low)?nums.size():low;
+    }
+};
+
+//异或，相同的异或是0，把1到n和每个数异或，最后得到的就是要找的（神奇）
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int re=nums.size();
+        for(int i=0;i<nums.size();++i)
+        {
+            re^=nums[i];
+            re^=i;
+        }
+        return re;
+    }
+};
+
+//用高斯公式，首数加尾数乘项数除以2，这是1到n的和，然后再把出现的数都减掉，剩下的就是没出现的
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int Gaussian=(1+nums.size())*nums.size()/2;
+        for(int i=0;i<nums.size();++i)
+        {
+            Gaussian-=nums[i];
+        }
+        return Gaussian;
+    }
+};
