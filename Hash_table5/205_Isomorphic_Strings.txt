@@ -1,0 +1,17 @@
+//用hash表。char作为索引，然后char是-128~127，所以只要是char做索引的，就a[256]这样
+class Solution{
+public:
+    bool isTsomorphic(string s,string t){
+	if(s.size()!=t.size())
+	    return false;
+	int m1[256]={0};          //这个初始化很神奇，就是括号里的数字是只给第一个赋值的，其余都会补成0......如果这个是{-1}的话，就是-1 0 0 0 .....而不是都是-1
+	int m2[256]={0};
+	for(int i=0;i<s.size();++i)
+	{
+	    if(m1[s[i]]!=m2[t[i]]) return false;
+	    m1[s[i]]=i+1;       //这个是为了避开0.看aa和ab就知道了。如果直接=i，这种就不行，因为初始化的值就是0
+	    m2[s[i]]=i+1;
+	}
+	return true;
+    }
+}
