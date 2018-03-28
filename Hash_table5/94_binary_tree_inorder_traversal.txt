@@ -1,0 +1,94 @@
+//普通递归
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> left;
+        vector<int> right;
+        if(root==NULL)
+            return left;
+        left=inorderTraversal(root->left);
+        right=inorderTraversal(root->right);
+        left.push_back(root->val);
+        left.insert(left.end(),right.begin(),right.end());
+        return left;
+        
+    }
+};
+
+//用stack，这个有点绕，看代码就懂了。中心思想是每次处理的都是root。这一轮处理完了，temp就要赋值成下一轮的root
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> sta;
+        vector<int> re;
+        TreeNode* temp=root;
+        while(temp!=NULL||!sta.empty())
+        {
+            while(temp!=NULL)
+            {
+                sta.push(temp);
+                temp=temp->left;
+            }
+            temp=sta.top();
+            re.push_back(temp->val);
+            sta.pop();
+            temp=temp->right;
+        }
+        return re;
+    }
+};
+
+//第三种叫Morris Traversal。思路是这个，代码自己写的。很神奇。可以看看这个题的solution
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> re;
+        while(root!=NULL)
+        {
+            while(root!=NULL&&root->left==NULL)
+            {
+                re.push_back(root->val);
+                root=root->right;
+            }
+            if(root==NULL)
+                break;
+            TreeNode* roottemp=root->left;
+            TreeNode* rootNext=root->left;
+            while(roottemp->right!=NULL)
+            {
+                roottemp=roottemp->right;
+            }
+            roottemp->right=root;
+            root->left=NULL;
+            root=rootNext;  
+        }
+        return re;
+    }
+};

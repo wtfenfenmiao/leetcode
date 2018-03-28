@@ -1,2 +1,4 @@
 4Sum
 Count Primes
+Happy Number
+Fraction to Recurring Decimal
