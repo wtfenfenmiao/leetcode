@@ -1,0 +1,34 @@
+//这个是编码。A是00，G是01，C是10，D是11，然后判断十个字符就是判断20个bit。然后用first和second，是防止一个组合如果出现了三回被塞进去两次有重复这种情况......用两个是去重用的
+class Solution {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        unordered_set<int> first;
+        unordered_set<int> second;
+        vector<string> re;
+        if(s.size()<=10)
+        {
+            return re;
+        }           
+        int map[26]={0};
+        map['A'-'A']=0;
+        map['G'-'A']=1;
+        map['C'-'A']=2;
+        map['T'-'A']=3;
+        for(int i=0;i<s.size()-9;++i)
+        {
+            int v=0;
+            for(int j=i;j<i+10;++j)
+            {
+                v=v<<2;
+                v|=map[s[j]-'A'];
+            }
+            if((first.find(v)!=first.end())&&(second.find(v)==second.end()))
+            {
+                re.push_back(s.substr(i,10));   
+                second.insert(v);
+            }
+            first.insert(v);
+        }
+        return re;
+    }
+};

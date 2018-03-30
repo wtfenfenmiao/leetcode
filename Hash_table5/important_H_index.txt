@@ -1,0 +1,25 @@
+//好好看题......这个题很费劲读明白，如果20分钟没写对，赶紧看答案吧......要不太耽误时间......
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        int re=0;
+        int len=citations.size();
+        if(len==0)
+            return re;
+        int temp[len+1]={0};
+        for(int i=0;i<len;++i)
+        {
+            if(citations[i]>len)
+                temp[len]+=1;
+            else
+                temp[citations[i]]+=1;
+        }
+        
+        for(int i=len;i>=0;--i)
+        {
+            re+=temp[i];
+            if(re>=i)
+                return i;
+        }
+    }
+};
