@@ -1,0 +1,34 @@
+//思路这样子的，建一个hash表，key是老结点，values是新结点。第一轮新结点只填充值，先把hash表建起来。第二轮再把指针对上
+/**
+ * Definition for singly-linked list with a random pointer.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        if(head==NULL)
+            return NULL;
+        unordered_map<RandomListNode*,RandomListNode*> Nodemap;
+        unordered_map<RandomListNode*,RandomListNode*>::iterator iter1;
+        RandomListNode* temp=head;
+        while(temp!=NULL)
+        {
+            RandomListNode* newNode=new RandomListNode(temp->label);
+            Nodemap.insert(pair<RandomListNode*,RandomListNode*>(temp,newNode));
+            temp=temp->next;
+        }
+        temp=head;
+        while(temp!=NULL)
+        {
+            iter1=Nodemap.find(temp);
+            iter1->second->next=Nodemap.find(temp->next)==Nodemap.end()?NULL:Nodemap.find(temp->next)->second;
+            iter1->second->random=Nodemap.find(temp->random)==Nodemap.end()?NULL:Nodemap.find(temp->random)->second;
+            temp=temp->next;
+        }
+        return Nodemap.find(head)->second;
+    }
+};

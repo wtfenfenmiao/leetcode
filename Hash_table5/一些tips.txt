@@ -1,1 +1,5 @@
 char作为索引时，然后char是-128~127，所以只要是char做索引的，就a[256]这样
+
+有一种hash表，key值出现++或者--，可以用来标识。299 bulls and cows就是
+
+hash_table的问题先想怎么建hash表，这个是核心问题
