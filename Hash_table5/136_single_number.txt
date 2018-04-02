@@ -1,0 +1,14 @@
+//位运算，异或，相同的都变成了0，不同的那个就剩下了
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int re=0;
+        for(int i=0;i<nums.size();++i)
+        {
+            re^=nums[i];
+        }
+        return re;
+    }
+};
+
+//hash表
