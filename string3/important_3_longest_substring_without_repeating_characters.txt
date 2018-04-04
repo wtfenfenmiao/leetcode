@@ -49,3 +49,24 @@ public:
         return re;
     }
 };
+
+
+//我自己写的hash表，原理一样，但是觉得简单一点
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int re=0;
+        int hashlist[256]={0};
+        int temp=0;
+        for(int i=0;i<s.size();++i)
+        {
+            if(hashlist[s[i]]!=0&&hashlist[s[i]]>temp)
+            {
+                temp=hashlist[s[i]];
+            }
+            hashlist[s[i]]=i+1;
+            re=max(re,i-temp+1);
+        }
+        return re;
+    }
+};

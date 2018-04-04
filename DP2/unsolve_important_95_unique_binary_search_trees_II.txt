@@ -49,3 +49,52 @@ public:
         return list;
     }
 };
+
+
+//不用这么复杂的指针
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        vector<TreeNode*> re;
+        if(n==0)
+            return re;
+        return geneTrees(1,n);
+    }
+    
+    vector<TreeNode*> geneTrees(int start,int end){
+        vector<TreeNode*> re;
+        if(start>end)
+            re.push_back(NULL);
+        else
+        {
+            for(int i=start;i<=end;++i)
+            {
+                vector<TreeNode*> left=geneTrees(start,i-1);
+                vector<TreeNode*> right=geneTrees(i+1,end);
+                for(auto le:left)
+                {
+                    for(auto ri:right)
+                    {
+                        TreeNode* root=new TreeNode(i);
+                        root->left=le;
+                        root->right=ri;
+                        re.push_back(root);
+                    }
+                }
+            }
+        }
+        
+        return re;
+    }
+    
+    
+};

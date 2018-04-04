@@ -1,0 +1,15 @@
+//°×ËÍµÄÌâ
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> list;
+        for(int i=0;i<nums.size();++i)
+        {
+            if(list.find(nums[i])!=list.end())
+                return true;
+            else
+                list.insert(nums[i]);
+        }
+        return false;
+    }
+};
