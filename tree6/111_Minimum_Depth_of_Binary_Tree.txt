@@ -1,0 +1,24 @@
+//好像一个脑筋急转弯......
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        else
+        {
+            int left=minDepth(root->right);
+            int right=minDepth(root->left);
+            return (left==0||right==0)?(left+right+1):(min(left,right)+1);
+        }
+            
+    }
+};

@@ -1,0 +1,56 @@
+//第一个方法，好想，但是复杂度高（我觉得是N^2,但是有人说是NlogN，感觉算不出来NlogN，但是这个复杂度一定比N^2小，但是是N乘以一个东西）。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL)
+            return true;
+        if(abs(TreeHeight(root->left)-TreeHeight(root->right))>1)
+             return false;
+        else return(isBalanced(root->right)&&isBalanced(root->left));
+    }
+    
+    int TreeHeight(TreeNode* root){
+        if(root==NULL)
+            return 0;
+        else 
+            return 1+max(TreeHeight(root->left),TreeHeight(root->right));
+    }
+};
+
+//这个复杂度是N了，把上面两个过程整合了一下
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        return (height(root)!=-1);
+    }
+    
+    int height(TreeNode* root)
+    {
+        if(root==NULL)
+            return 0;
+        int left=height(root->left);
+        if(left==-1) return -1;
+        int right=height(root->right);
+        if(right==-1) return -1;
+        if(abs(left-right)>1) return -1;
+        return 1+max(left,right);
+    }
+};

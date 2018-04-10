@@ -1,0 +1,39 @@
+//队列可以计数，以达到只弹出来一层的目的。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> re;
+        queue<TreeNode*> qu;
+        if(root==NULL)
+            return re;
+        qu.push(root);
+        while(!qu.empty())
+        {
+            int num=qu.size();
+            vector<int> thisvec;
+            for(int i=0;i<num;++i)
+            {
+                thisvec.push_back(qu.front()->val);
+                if(qu.front()->left!=NULL)
+                    qu.push(qu.front()->left);
+                if(qu.front()->right!=NULL)
+                    qu.push(qu.front()->right);
+                qu.pop();
+            }
+            if(!thisvec.empty())
+                re.push_back(thisvec);
+        }
+        reverse(re.begin(),re.end());
+        return re;
+        
+    }
+};

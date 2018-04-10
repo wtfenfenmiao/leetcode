@@ -1,0 +1,81 @@
+//觉得这个虽然是medium，但是有点水
+//我的
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> re;
+        if(root==NULL)
+            return re;
+        queue<TreeNode*> qu;
+        int dir=false;     //一个标志，弄zigzag的
+        qu.push(root);
+        while(!qu.empty())
+        {
+            vector<int> thisvec;
+            int num=qu.size();
+            for(int i=0;i<num;++i)
+            {
+                thisvec.push_back(qu.front()->val);
+                if(qu.front()->left!=NULL)
+                    qu.push(qu.front()->left);
+                if(qu.front()->right!=NULL)
+                    qu.push(qu.front()->right);
+                qu.pop();
+            }
+            if(dir)
+                reverse(thisvec.begin(),thisvec.end());   
+            dir=!dir; 
+            re.push_back(thisvec);
+        }
+        return re;
+    }
+};
+
+//还可以算一下这个每一行应该插那个位置，就不用reverse了
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> re;
+        if(root==NULL)
+            return re;
+        queue<TreeNode*> qu;
+        int dir=false;     //一个标志，弄zigzag的
+        qu.push(root);
+        while(!qu.empty())
+        {          
+            int num=qu.size();
+            vector<int> thisvec(num,0);
+            for(int i=0;i<num;++i)
+            {
+                int index=dir?(num-i-1):i;
+                thisvec[index]=qu.front()->val;
+                if(qu.front()->left!=NULL)
+                    qu.push(qu.front()->left);
+                if(qu.front()->right!=NULL)
+                    qu.push(qu.front()->right);
+                qu.pop();
+            }
+            dir=!dir;
+            re.push_back(thisvec);
+        }
+        return re;
+    }
+};
