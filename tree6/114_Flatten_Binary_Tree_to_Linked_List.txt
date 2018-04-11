@@ -1,0 +1,88 @@
+//递归的办法
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if(root==NULL)
+	    return;
+	flatten(root->left);
+	flatten(root->right);
+	TreeNode* temp;
+	temp=root->right;
+	root->right=root->left;
+        root->left=NULL;           //这一行折磨了好久，别忘了把左孩子结点清了......
+	while(root->right!=NULL)
+	{
+	    root=root->right;
+	}
+	root->right=temp;
+    }
+};
+
+//一样递归思路的神奇操作
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    TreeNode* prev=NULL;
+public:
+    void flatten(TreeNode* root) {
+        if(root==NULL)
+	        return;
+	    flatten(root->right);
+	    flatten(root->left);
+	    root->right=prev;
+	    root->left=NULL;
+	    prev=root;
+    }
+};
+
+//这种是练练脑子的，复杂度有点高
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        while(root)
+	    {
+	        if(root->left&&root->right)
+		    {
+		        TreeNode* t=root->left;
+	   	        while(t->right!=NULL)
+		        {
+		            t=t->right;
+ 		        }
+		        t->right=root->right;
+		    }
+	        if(root->left)
+		    {
+	  	        root->right=root->left;
+		        root->left=NULL;
+                
+		    }
+            root=root->right;
+        }
+    }
+};

@@ -1,0 +1,81 @@
+//递归的办法，很好想
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> re;
+	if(root==NULL)
+	{
+		return re;
+
+	}
+	if(root->left==NULL&&root->right==NULL&&root->val==sum)
+	{
+		vector<int> thisvec;
+		thisvec.push_back(sum);
+		re.push_back(thisvec);
+		return re;
+	}		
+	vector<vector<int>> left=pathSum(root->left,sum-root->val);
+	vector<vector<int>> right=pathSum(root->right,sum-root->val);
+	for(auto i:left)
+	{
+		i.insert(i.begin(),root->val);
+		re.push_back(i);
+	}
+	for(auto i:right)
+	{
+		i.insert(i.begin(),root->val);
+		re.push_back(i);
+	}
+	return re;
+
+    }
+};
+
+//回溯的办法，需要想一想。而且这个代码的套路很常规，最好记熟
+//这个pop操作，因为开辟的curResult空间不多余，只有一份，所以要保证每个函数进来和出去的时候这个curResult是一样的，好给下一个用
+//所以只要经过了塞root->val的地方，都得把这个值pop了
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> result;
+	    vector<int> curResult;
+	    pathSumHelp(root,sum,result,curResult);
+	    return result;
+    }
+    void pathSumHelp(TreeNode* root,int sum,vector<vector<int>>& result,vector<int>& curResult){
+	    if(root==NULL)
+		    return;
+	    curResult.push_back(root->val);
+	    if(root->left==NULL&&root->right==NULL&&root->val==sum)
+	    {
+		    result.push_back(curResult);
+		    curResult.pop_back();
+		    return;
+	    }
+	    else
+	    {
+		    pathSumHelp(root->left,sum-root->val,result,curResult);
+		    pathSumHelp(root->right,sum-root->val,result,curResult);
+		    curResult.pop_back();
+	    }
+    }
+};
