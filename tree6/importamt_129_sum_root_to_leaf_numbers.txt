@@ -1,0 +1,28 @@
+//递归，从上往下的递归
+//这个弯不太好转，好好想想
+//这个curSum改成beforesum会比较好想，这个逻辑说不太清楚，看代码吧......
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return sumHelp(root,0);
+    }
+    int sumHelp(TreeNode* root,int curSum)
+    {
+        if(root==NULL)
+            return 0;
+        if(root->left==NULL&&root->right==NULL) 
+	    return curSum*10+root->val;
+        return sumHelp(root->left,curSum*10+root->val)+sumHelp(root->right,curSum*10+root->val);
+        
+        
+    }
+};

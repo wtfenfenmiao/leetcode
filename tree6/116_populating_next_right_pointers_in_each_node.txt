@@ -1,0 +1,75 @@
+//我写的，按层的思路。这个代码把count*=2应该改成count=qu.size(),这道题是完全二叉树，所以就用的*=2。改成size之后的代码可以用在117题上
+//时间是O(n)的，然而空间是O(n)的，感觉这个空间复杂度不能叫“有限”
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if(root==NULL)
+            return;
+        queue<TreeLinkNode*> qu;
+        qu.push(root);
+        int count=1;
+        while(!qu.empty())
+        {
+            for(int i=0;i<count-1;++i)
+            {
+                TreeLinkNode* temp=qu.front();
+                qu.pop();
+                temp->next=qu.front();
+                if(temp->left)
+                    qu.push(temp->left);
+                if(temp->right)
+                    qu.push(temp->right);
+            }
+            TreeLinkNode* temp=qu.front();
+            temp->next=NULL;
+            if(temp->left)
+                qu.push(temp->left);
+            if(temp->right)
+                qu.push(temp->right);
+            qu.pop();
+            count*=2;
+        }
+    }
+   
+};
+
+
+
+//简单一点的，也是按层来的，直接用指针。注意next的初始值都是NULL，所以这种最后一个其实可以不用特别管
+//时间是O(n)的，空间是O(1)的
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if(root==NULL)
+            return;
+        TreeLinkNode* nowStart=root;
+        while(nowStart->left)
+        {
+            TreeLinkNode* temp=nowStart;
+            while(temp)
+            {
+                temp->left->next=temp->right;
+                if(temp->next)
+                    temp->right->next=temp->next->left;
+                temp=temp->next;
+            }
+            nowStart=nowStart->left;
+        }
+    }
+};
