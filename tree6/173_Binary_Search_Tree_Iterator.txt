@@ -1,0 +1,48 @@
+//这个题读明白可太费劲了......读不明白就看答案代码吧，用了一个辅助栈，
+//这样每次调用这个next的时候，都操作了新的结点，这个树调用next全遍历一遍用的时间是O(n)，平均下来每次用的时间就是O(1)
+//然后这个栈占的大小也是O(h)的，符合条件
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class BSTIterator {
+private:
+    stack<TreeNode*> st;
+
+public:
+    BSTIterator(TreeNode *root) {
+        pushLeft(root);
+    }
+
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        return !st.empty();
+    }
+
+    /** @return the next smallest number */
+    int next() {
+        TreeNode* temp=st.top();
+        st.pop();
+        pushLeft(temp->right);
+        return temp->val;
+    }
+    
+    void pushLeft(TreeNode* root){
+        while(root)
+        {
+            st.push(root);
+            root=root->left;
+        }
+    }
+};
+
+/**
+ * Your BSTIterator will be called like this:
+ * BSTIterator i = BSTIterator(root);
+ * while (i.hasNext()) cout << i.next();
+ */

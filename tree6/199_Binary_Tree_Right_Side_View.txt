@@ -1,0 +1,68 @@
+//层序遍历老套路（广度优先）
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> re;
+        queue<TreeNode*> qu;
+        if(root==NULL)
+            return re;
+        qu.push(root);
+        while(!qu.empty())
+        {
+            int count=qu.size();
+            vector<int> thisvec;
+            for(int i=0;i<count;++i)
+            {
+                thisvec.push_back(qu.front()->val);
+                if(qu.front()->left)
+                    qu.push(qu.front()->left);
+                if(qu.front()->right)
+                    qu.push(qu.front()->right);
+                qu.pop();
+            }
+            re.push_back(thisvec[thisvec.size()-1]);
+        }
+        return re;
+    }
+};
+
+
+//一个很神奇的算法
+//The core idea of this algorithm:
+//1.Each depth of the tree only select one node.
+//2. View depth is current size of result list.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> re;
+        ViewHelper(root,re,0);
+        return re;
+    }
+    void ViewHelper(TreeNode* root,vector<int>& re,int depth)
+    {
+        if(root==NULL)
+            return;
+        if(depth==re.size())
+            re.push_back(root->val);
+        ViewHelper(root->right,re,depth+1);
+        ViewHelper(root->left,re,depth+1);
+    }
+};
