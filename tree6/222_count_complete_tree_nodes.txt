@@ -1,0 +1,129 @@
+//无脑递归，算法复杂度O(n),超时血崩
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        return 1+countNodes(root->left)+countNodes(root->right);
+    }
+};
+
+//改一下，每次递归都加了个条件。来源的思想是一个完全二叉树，左子树和右子树至少有一个是满的。
+//这种在每个递归里都要算一下高度，这个高度的复杂度是O(log(n))
+//要算的递归数也是O(log(n)),因为完全二叉树的左右子树至少有一个是满的，所以每次递归算左右子树的结点数的时候，都能剪一个枝，在中间return
+//所以最后的复杂度是O(log(n)^2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        TreeNode* left=root;
+        TreeNode* right=root;
+        int height=0;
+        while(right!=NULL)
+        {
+            left=left->left;
+            right=right->right;
+            ++height;
+        }
+        if(!left)
+            return (1<<height)-1;
+        return 1+countNodes(root->left)+countNodes(root->right);
+    }
+};
+
+
+
+//另一种类似思路但是解法不一样
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int Height(TreeNode* root){
+        int re=-1;
+        while(root)
+        {
+            root=root->left;
+            ++re;
+        }
+        return re;
+    }
+    
+    int countNodes(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        int h=Height(root);
+        int hright=Height(root->right);
+        if(hright==h-1)
+            return (1<<h)+countNodes(root->right);
+        else
+            return (1<<(h-1))+countNodes(root->left);
+    }
+};
+
+//这种的iterative的形式
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int Height(TreeNode* root){
+        int re=-1;
+        while(root)
+        {
+            root=root->left;
+            ++re;
+        }
+        return re;
+    }
+    int countNodes(TreeNode* root) {
+        int re=0;
+        while(root)
+        {
+            int h=Height(root);
+            int hright=Height(root->right);
+            if(hright==h-1)
+            {
+                re+=(1<<h);
+                root=root->right;
+            }
+            else
+            {
+                re+=(1<<(h-1));
+                root=root->left;
+            }
+        }
+        return re;
+    }
+};
