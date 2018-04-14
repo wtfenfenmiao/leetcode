@@ -1,4 +1,4 @@
-//直接递归版本，还有别的版本，明天写吧
+//直接递归版本
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -19,6 +19,40 @@ public:
         root->left=temp;
         invertTree(root->left);
         invertTree(root->right);
+        return root;
+    }
+};
+
+//iterative版本
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if(root==NULL)
+            return root;
+        queue<TreeNode*> qu;
+        qu.push(root);
+        while(!qu.empty())
+        {
+            TreeNode* temp=qu.front();
+            TreeNode* temp1=temp->left;
+            temp->left=temp->right;
+            temp->right=temp1;
+            qu.pop();
+            if(temp->right)
+                qu.push(temp->right);
+            if(temp->left)
+                qu.push(temp->left);
+            
+        }
         return root;
     }
 };
