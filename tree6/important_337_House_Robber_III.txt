@@ -1,0 +1,110 @@
+//这个题的discuss第一个说的特别清晰，以下都来源于这个discuss。
+//递归加DP
+//普通递归，有个问题，就是每一层都会重复计算。这一次递归算了left和left->left，下一次也是，就重了一层
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        int val=0;
+        if(root->left)
+        {
+            val+=rob(root->left->left);
+            val+=rob(root->left->right);
+        }
+        if(root->right)
+        {
+            val+=rob(root->right->left);
+            val+=rob(root->right->right);
+        }
+        return max(val+root->val,rob(root->left)+rob(root->right));
+            
+        
+    }
+};
+
+
+//改善这个问题，用hashmap把以每个结点为根的结果都存起来。逻辑和上面一样，就是返回的时候多查一个
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        unordered_map<TreeNode*,int> hashmap;
+        return robHelper(root,hashmap);
+    }
+    
+    int robHelper(TreeNode* root,unordered_map<TreeNode*,int>& hashmap)
+    {
+        if(root==NULL) 
+            return 0;
+        if(hashmap.find(root)!=hashmap.end()) 
+            return hashmap.find(root)->second;
+        int val=0;
+        if(root->left)
+        {
+            val+=robHelper(root->left->left,hashmap);
+            val+=robHelper(root->left->right,hashmap);
+        }
+        if(root->right)
+        {
+            val+=robHelper(root->right->left,hashmap);
+            val+=robHelper(root->right->right,hashmap);
+        }
+        int re=max(val+root->val,robHelper(root->left,hashmap)+robHelper(root->right,hashmap));
+        hashmap[root]=re;
+        return re;
+        
+    }
+};
+
+
+
+//改良版，之前定义的rob和robHelper，返回的都是以输入结点为根结点的结果，没有区分包含这个根节点和不包含这个根结点的情况
+//现在做一个区分，返回一个数组，一个是包含根结点的，一个是不包含根结点的
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        vector<int> re;
+        re=robHelper(root);
+        return max(re[0],re[1]);
+    }
+    
+    vector<int> robHelper(TreeNode* root){
+        vector<int> re(2,0);   //re[0]是不含root的,re[1]含root
+        if(root==NULL)
+            return re;
+        vector<int> left=robHelper(root->left);
+        vector<int> right=robHelper(root->right);
+        re[0]=max(left[0],left[1])+max(right[0],right[1]);
+        re[1]=root->val+left[0]+right[0];
+        return re;
+        
+            
+    }
+};

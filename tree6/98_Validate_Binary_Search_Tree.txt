@@ -1,0 +1,33 @@
+//和94题binary tree inorder traversal中序遍历一起食用更佳.......
+//94题的中序遍历说也适用于Kth Smallest Element in a BST
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        TreeNode* pre=NULL;
+        stack<TreeNode*> st;
+        while(root!=NULL||!st.empty())
+        {
+            while(root!=NULL)
+            {
+                st.push(root);
+                root=root->left;
+            }
+            TreeNode* temp=st.top();
+            st.pop();
+            if(pre!=NULL&&temp->val<=pre->val) return false;
+            pre=temp;
+            root=temp->right; 
+        }
+        return true;
+        
+    }
+};
