@@ -1,0 +1,98 @@
+//这个题不难，但是想说明一下递归相关的问题。
+//这是第一种，我写的递归，这种递归有个问题，占的空间特别大。因为每递归一次都是产生新的vector的。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> re;
+        if(root==NULL)
+            return re;
+        if(root->left==NULL&&root->right==NULL)
+        {
+            re.push_back(to_string(root->val));
+            return re;
+        }
+        vector<string> left=binaryTreePaths(root->left);
+        vector<string> right=binaryTreePaths(root->right);
+        for(auto le:left)
+        {
+            re.push_back(to_string(root->val)+"->"+le);
+        }
+        for(auto ri:right)
+        {
+            re.push_back(to_string(root->val)+"->"+ri);
+        }
+        return re;
+        
+    }
+};
+
+
+//第二种递归，这种套路很常见，占的空间很小，一直重复利用不浪费
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> re;
+        binaHelp(root,"",re);
+        return re;
+    }
+    
+    void binaHelp(TreeNode* root,string path,vector<string>& re)
+    {
+        if(root==NULL)
+            return;
+        if(root->left==NULL&&root->right==NULL)
+            re.push_back(path+to_string(root->val));
+        if(root->left)
+            binaHelp(root->left,path+to_string(root->val)+"->",re);
+        if(root->right)
+            binaHelp(root->right,path+to_string(root->val)+"->",re);
+    }
+};
+
+
+//一个微调
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> re;
+        if(root!=NULL) binaHelp(root,"",re);
+        return re;
+    }
+    
+    void binaHelp(TreeNode* root,string path,vector<string>& re)
+    {
+        if(root->left==NULL&&root->right==NULL) 
+            re.push_back(path+to_string(root->val));
+        if(root->left!=NULL)
+            binaHelp(root->left,path+to_string(root->val)+"->",re);
+        if(root->right!=NULL)
+            binaHelp(root->right,path+to_string(root->val)+"->",re);
+    }
+};
