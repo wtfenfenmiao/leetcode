@@ -1,0 +1,30 @@
+//找一种可行的就行，最简单的就是二分
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        if(nums.size()==0)
+            return NULL;
+        TreeNode* head=sortedHelper(nums,0,nums.size()-1);
+        return head;
+    }
+    
+    TreeNode* sortedHelper(vector<int>& nums,int low,int high)
+    {
+        if(low>high)
+            return NULL;
+        int mid=(low+high)/2;
+        TreeNode* mi=new TreeNode(nums[mid]);
+        mi->left=sortedHelper(nums,low,mid-1);
+        mi->right=sortedHelper(nums,mid+1,high);
+        return mi;
+    }
+};
