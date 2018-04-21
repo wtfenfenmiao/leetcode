@@ -1,0 +1,22 @@
+//除以2向下取整的问题，所以先找low一定等于mid+1的条件，剩下的就是high=mid的
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int low=0;
+        int high=nums.size()-1;
+        while(low<high)
+        {
+            int mid=(low+high)/2;
+            if(nums[mid]>nums[high])
+            {
+                low=mid+1;
+            }
+            else
+                high=mid;
+            
+        }
+        return nums[low];
+    }
+};

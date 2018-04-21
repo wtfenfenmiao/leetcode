@@ -1,4 +1,4 @@
-//方法1
+﻿//方法1，太暴力了......170ms
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
@@ -19,7 +19,7 @@ public:
     }
 };
 
-//方法2
+//方法2，这个应该是时间复杂度最低的感觉......虽然和方法三时间显示差不多
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
@@ -43,6 +43,40 @@ public:
             }
             else
                 --end;
+        }
+    }
+};
+
+//方法三，标准的二分
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        vector<int> re;
+        int si=numbers.size();
+        for(int i=0;i<si;++i)
+        {
+            if(i!=0&&numbers[i]==numbers[i-1])
+                continue;
+            int find=target-numbers[i];
+            if(find<numbers[i])
+                break;
+            int low=i+1;
+            int high=si-1;
+            while(low<=high)
+            {
+                int mid=(low+high)/2;
+                if(numbers[mid]==find)
+                {
+                    re.push_back(i+1);
+                    re.push_back(mid+1);
+                    return re;
+                }
+                if(numbers[mid]<find)
+                    low=mid+1;
+                else
+                    high=mid-1;
+            }
+            
         }
     }
 };
