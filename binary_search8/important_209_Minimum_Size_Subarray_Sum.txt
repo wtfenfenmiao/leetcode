@@ -1,0 +1,82 @@
+//我自己写的，用双指针。这个复杂度感觉是O(n)，因为只扫一遍
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int i=0;
+        int j=0;
+        int sum=0;
+        int re=nums.size();
+        while((!(i==j&&i!=0))&&(j<nums.size()))
+        {
+            while(sum<s&&j<nums.size())
+            {
+                sum+=nums[j++];
+            }
+            if(sum<s)
+                break;
+            while(sum>=s&&i<=j)
+            {
+                sum-=nums[i++];
+            }
+            if(i>j)
+            {
+                re=1;
+                break;
+            }
+            re=min(re,j-i+1);
+            
+        }
+        if(i==0&&j>=nums.size())
+            re=0;
+        return re;
+    }
+};
+
+//别人的two pointer......
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int left=0;
+        int ans=INT_MAX;
+        int sum=0;
+        
+        for(int i=0;i<nums.size();++i)
+        {
+            sum+=nums[i];
+            while(sum>=s)
+            {
+                ans=min(ans,i-left+1);
+                sum-=nums[left++];
+            }
+        }
+        return ans==INT_MAX?0:ans;
+    }
+};
+
+//二分查找的。函数lower_bound()在first和last中的前闭后开区间进行二分查找，返回大于或等于val的第一个元素位置。如果所有元素都小于val，则返回last的位置
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int n=nums.size();
+        int ans=INT_MAX;
+        if(n==0)
+            return 0;
+        vector<int> sums(n+1,0);
+        for(int i=1;i<=n;++i)
+        {
+            sums[i]=sums[i-1]+nums[i-1];
+        }
+        for(int i=0;i<=n;++i)
+        {
+            int to_find=sums[i]+s;
+            int bound=lower_bound(sums.begin(),sums.end(),to_find)-sums.begin();
+            if(bound!=n+1)
+            {
+                ans=min(ans,bound-i);
+            }
+        }
+        return ans==INT_MAX?0:ans;
+    }
+};
