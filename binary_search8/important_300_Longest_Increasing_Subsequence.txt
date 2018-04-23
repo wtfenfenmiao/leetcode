@@ -1,0 +1,73 @@
+//DP
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)
+        {
+            return 0;
+        }
+        int re=1;
+        vector<int> dp(n,1);
+        for(int i=1;i<n;++i)
+        {
+            int temp1=1;
+            for(int j=0;j<i;++j)
+            {
+                if(nums[j]<nums[i])
+                {
+                    temp1=max(dp[j]+1,temp1);
+                }
+            }
+            dp[i]=temp1;
+            re=max(re,dp[i]);
+        }
+        return re;
+    }
+};
+
+
+
+//神奇的操作，二分查找加DP。重点理解。不行就举个复杂的例子，没有那么难理解！仔细想一下！！
+//看不懂这个描述就看代码和解析
+//dp存的是每个数字，每个数字都在以这个数字为结尾的递增序列的地方。最后返回这个dp的长度就行（其实那个re多余了，完全可以用长度）
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int re=1;
+        vector<int> dp;
+        dp.push_back(nums[0]);
+        for(int i=1;i<nums.size();++i)
+        {
+            int insert=binary_insert(dp,nums[i]);
+            if(insert==re)
+            {
+                dp.push_back(nums[i]);
+                ++re;
+            }
+            dp[insert]=nums[i];
+        }
+        return re;
+    }
+    
+    int binary_insert(vector<int>& dp,int val)
+    {
+        if(dp.size()==0)
+            return 0;
+        int low=0;
+        int high=dp.size()-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(dp[mid]==val)
+                return mid;
+            if(dp[mid]>val)
+                high=mid-1;
+            else
+                low=mid+1;
+        }
+        return low;
+    }
+};
