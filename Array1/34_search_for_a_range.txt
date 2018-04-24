@@ -1,4 +1,4 @@
-//二分查找......
+﻿//二分查找......
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
@@ -35,5 +35,42 @@ public:
             re[1]=lo-1;
         return re;
         
+    }
+};
+
+
+//另一种类似的二分查找，二刷的时候写的。看找最右边界。其实意思是一样的
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> re(2,-1);
+        if(nums.size()==0)
+            return re;
+        int low=0;
+        int high=nums.size()-1;
+        while(low<high)
+        {
+            int mid=(low+high)/2;
+            if(nums[mid]<target)
+                low=mid+1;
+            else
+                high=mid;
+        }
+        if(nums[high]!=target)
+            return re;
+        re[0]=high;
+        low=0;
+        high=nums.size()-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(nums[mid]<=target)
+                low=mid+1;
+            else
+                high=mid-1;
+        }
+        
+        re[1]=low-1;
+        return re;
     }
 };
