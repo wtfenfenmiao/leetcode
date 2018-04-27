@@ -8,3 +8,5 @@ H-index (还是弄不明白这个题到底啥意思，先接受吧)
 sqrt(X)
 Pow(x,n)
 Search for a Range
+Search in Rotated Sorted Array
+Kth Smallest Element in a BST
