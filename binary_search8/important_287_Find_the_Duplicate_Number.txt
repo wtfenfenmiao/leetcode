@@ -1,0 +1,25 @@
+//这个的限制太多了，不能sort（原数组不能动）不能hash（额外place是O(1))。所以用这种解法
+//cycle的解法。重要
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int low=0;
+        int high=0;
+        do
+        {
+            low=nums[low];
+            high=nums[nums[high]];
+        }
+        while(low!=high);
+        high=0;
+        while(nums[low]!=nums[high])
+        {
+            low=nums[low];
+            high=nums[high];
+        }
+        return nums[low];
+            
+    }
+};

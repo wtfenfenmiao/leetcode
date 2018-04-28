@@ -1,0 +1,47 @@
+//第一种，遍历。每次只跟后面的那个比就行。（这个想一下就能明白，分为升序，降序，峰值在中间。每个都是只要这个元素大于后面的元素了，就能return了）
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> re;
+        sort(nums1.begin(),nums1.end());
+        sort(nums2.begin(),nums2.end());
+        int n1=0;
+        int n2=0;
+        while(n1<nums1.size()&&n2<nums2.size())
+        {
+            if(nums1[n1]==nums2[n2])
+            {
+                re.push_back(nums1[n1]);
+                ++n1;
+                ++n2;
+            }
+            else if(nums1[n1]<nums2[n2])
+                ++n1;
+            else
+                ++n2;
+        }
+        return re;
+    }
+};
+
+
+//二分的办法。看一下代码就懂啥意思了。（这里mid+1不会溢出的，想一下就能明白。）
+//mid是最大的index的时候mid+1会溢出，可是mid只有当left=right=最大index的时候才会是最大的index，而这个时候不会进while循环，left=right出循环了，所以不用担心mid+1会溢出
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int left=0;
+        int right=nums.size()-1;
+        while(left<right)
+        {
+            int mid=(left+right)/2;
+            if(nums[mid]<nums[mid+1])
+                left=mid+1;
+            else
+                right=mid;
+        }
+        return left;
+    }
+};

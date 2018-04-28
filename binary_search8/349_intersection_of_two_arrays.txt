@@ -1,0 +1,59 @@
+//求交集
+
+//我写的
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> re;
+        if(nums1.size()==0||nums2.size()==0)
+            return re;
+        
+        sort(nums1.begin(),nums1.end());
+        sort(nums2.begin(),nums2.end());
+        
+        for(int i=0;i<nums2.size();++i)
+        {
+            if(i!=0&&nums2[i]==nums2[i-1])
+                continue;
+            int low=0;
+            int high=nums1.size()-1;
+            while(low<=high)
+            {
+                int mid=(low+high)/2;
+                if(nums1[mid]==nums2[i])
+                {
+                    re.push_back(nums2[i]);
+                    break;
+                }
+                if(nums1[mid]<nums2[i])
+                    low=mid+1;
+                else
+                    high=mid-1;
+            }
+        }
+        return re;
+    }
+};
+
+
+//用hash表
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> numset;
+        vector<int> re;
+        for(int i=0;i<nums1.size();++i)
+        {
+            numset.insert(nums1[i]);
+        }
+        for(int i=0;i<nums2.size();++i)
+        {
+            if(numset.find(nums2[i])!=numset.end())
+            {
+                re.push_back(nums2[i]);
+                numset.erase(nums2[i]);
+            }
+        }
+        return re;
+    }
+};

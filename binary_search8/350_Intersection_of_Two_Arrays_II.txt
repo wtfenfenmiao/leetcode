@@ -1,0 +1,48 @@
+//hash
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> numset;
+        vector<int> re;
+        for(int i=0;i<nums1.size();++i)
+        {
+            numset.insert(nums1[i]);
+        }
+        for(int i=0;i<nums2.size();++i)
+        {
+            if(numset.find(nums2[i])!=numset.end())
+            {
+                re.push_back(nums2[i]);
+                numset.erase(nums2[i]);
+            }
+        }
+        return re;
+    }
+};
+
+
+//用两个指针+sort
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> re;
+        sort(nums1.begin(),nums1.end());
+        sort(nums2.begin(),nums2.end());
+        int n1=0;
+        int n2=0;
+        while(n1<nums1.size()&&n2<nums2.size())
+        {
+            if(nums1[n1]==nums2[n2])
+            {
+                re.push_back(nums1[n1]);
+                ++n1;
+                ++n2;
+            }
+            else if(nums1[n1]<nums2[n2])
+                ++n1;
+            else
+                ++n2;
+        }
+        return re;
+    }
+};
