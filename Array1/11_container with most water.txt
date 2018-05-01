@@ -1,4 +1,4 @@
-class Solution {
+﻿class Solution {
 public:
     int maxArea(vector<int>& height) {
         int re=0;
@@ -11,6 +11,43 @@ public:
             while(mi==height[i]&&i<j) ++i;
             while(mi==height[j]&&i<j) --j;   
         } 
+        return re;
+    }
+};
+
+
+//写的很麻烦的
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        if(height.size()==0)
+            return 0;
+        int i=0;
+        int j=height.size()-1;
+        int re=(j-i)*min(height[i],height[j]);
+        while(i<j)
+        {
+            if(height[i]==min(height[i],height[j]))
+            {
+                int itemp=i;
+                ++i;
+                while(i<j&&height[i]<=height[itemp])
+                {
+                    ++i;
+                }
+                re=max(re,(j-i)*min(height[i],height[j]));
+            }
+            else
+            {
+                int jtemp=j;
+                --j;
+                while(i<j&&height[j]<=height[jtemp])
+                {
+                    --j;
+                }
+                re=max(re,(j-i)*min(height[i],height[j]));
+            }
+        }
         return re;
     }
 };
