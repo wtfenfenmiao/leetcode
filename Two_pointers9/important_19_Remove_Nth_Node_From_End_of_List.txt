@@ -1,0 +1,31 @@
+//这个双指针比较好想，然而这个指针操作还要熟练
+//这样想，**的功能就一个，就是能用这个指针找到当前结点，而不是当前结点的下一个结点。这个东西尽可能往简单了想
+//还有赋值也都是 变量=XX这样，别 *变量=XX这样
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* fast;
+        ListNode** slow;
+        fast=head;
+        slow=&head;
+        while(n--)
+        {
+            fast=fast->next;
+        }
+        while(fast!=NULL)
+        {
+            fast=fast->next;
+            slow=&((*slow)->next);
+        }
+        (*slow)=(*slow)->next;
+        return head;
+    }
+};
