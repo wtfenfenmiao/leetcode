@@ -1,0 +1,32 @@
+//这两个linked list cycle问题很典型
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow=head;
+        ListNode* fast=head;
+        if(fast==NULL||fast->next==NULL)
+            return NULL;
+        do
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }while(fast!=NULL&&fast->next!=NULL&&fast!=slow);
+        if(fast!=slow)
+            return NULL;
+        fast=head;
+        while(fast!=slow)
+        {
+            fast=fast->next;
+            slow=slow->next;
+        }
+        return slow;
+    }
+};
