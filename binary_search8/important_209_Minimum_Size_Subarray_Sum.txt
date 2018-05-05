@@ -80,3 +80,38 @@ public:
         return ans==INT_MAX?0:ans;
     }
 };
+
+
+
+
+//我后来又写了一个two pointer，一如既往的麻烦......
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int i=0;
+        int j=0;
+        int sum=nums[0];
+        int re=INT_MAX;
+        while(j<nums.size()&&i<=j)
+        {
+            while(sum<s&&j<nums.size()-1)
+                sum+=nums[++j];
+            if(j==nums.size()-1&&sum<s)
+            {
+                if(re==INT_MAX)
+                    return 0;
+                else
+                    return re;
+            }
+            re=min(re,j-i+1);
+            while(sum>=s&&i<=j)
+            {
+                re=min(re,j-i+1);
+                sum-=nums[i++];
+            }
+        }
+        return re;
+    }
+};
