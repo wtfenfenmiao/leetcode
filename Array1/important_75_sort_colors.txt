@@ -1,4 +1,4 @@
-//从中间往两边导......
+﻿//从中间往两边导......
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
@@ -17,5 +17,33 @@ public:
         int temp=nums[i];
         nums[i]=nums[j];
         nums[j]=temp;
+    }
+};
+
+
+
+//另一种写法，意思是一样的
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int lo=0;
+        int hi=nums.size()-1;
+        int i=0;
+        while(i<=hi)
+        {
+            if(nums[i]==1) ++i;
+            else if(nums[i]==0)
+            {
+                int temp=nums[lo];
+                nums[lo++]=nums[i];
+                nums[i++]=temp;
+            }
+            else
+            {
+                int temp=nums[hi];
+                nums[hi--]=nums[i];
+                nums[i]=temp;
+            }
+        }
     }
 };

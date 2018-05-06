@@ -7,3 +7,6 @@ Valid Palindrome
 Two Sum II - Input array is sorted
 Remove Element （这个题其实，只要数明白index就行，但是index选好了，感觉真的会很省事！）
 Minimum Size Subarray Sum
+Merge Sorted Array
+Sort Colors
+Implement strStr()

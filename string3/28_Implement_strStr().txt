@@ -13,3 +13,28 @@ public:
         }
     }
 };
+
+
+//另一种。这个题思路还是很简单。就是挨个比
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int m=haystack.size();
+        int n=needle.size();
+        if(m<n)
+            return -1;
+        if(m==n)
+        {
+            if(haystack==needle)
+                return 0;
+            else
+                return -1;
+        }
+        for(int i=0;i<m;++i)
+        {
+            if(haystack.substr(i,n)==needle)
+                return i;
+        }
+        return -1;
+    }
+};
