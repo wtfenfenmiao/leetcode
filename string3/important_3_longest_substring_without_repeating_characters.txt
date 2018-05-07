@@ -70,3 +70,89 @@ public:
         return re;
     }
 };
+
+//后来自己又写的
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size()<=1)
+            return s.size();
+        vector<int> hash(256,-1);
+        hash[s[0]]=0;
+        int i=0;
+        int j=1;
+        int re=1;
+        while(i<=j&&j<s.size())
+        {
+
+            if(i==j||hash[s[j]]<hash[s[i]])
+            {
+                hash[s[j]]=j;
+                ++j;
+                re=max(re,j-i);
+            }
+            else
+            {              
+                ++i;
+            }
+        }
+        return re;
+        
+    }
+};
+
+//稍稍改一下，感觉更好，虽然系统提交上没显示出来变好了......
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size()<=1)
+            return s.size();
+        vector<int> hash(256,-1);
+        hash[s[0]]=0;
+        int i=0;
+        int j=1;
+        int re=1;
+        while(i<=j&&j<s.size())
+        {
+
+            if(i==j||hash[s[j]]<hash[s[i]])
+            {
+                hash[s[j]]=j;
+                ++j;
+                re=max(re,j-i);
+            }
+            else
+            {              
+                i=hash[s[j]]+1;    //这句话改了下，感觉能省很多时间。i一个个往前挪太费劲了
+            } 
+        }
+        return re;
+        
+    }
+};
+
+//再改一下，其实前面不需要那些判断的......
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> hash(256,-1);
+        int i=0;
+        int j=0;
+        int re=0;
+        while(i<=j&&j<s.size())
+        {
+            if(i==j||hash[s[j]]<hash[s[i]])
+            {
+                hash[s[j]]=j;
+                ++j;
+                re=max(re,j-i);
+            }
+            else
+            {              
+                i=hash[s[j]]+1;    //这句话改了下，感觉能省很多时间。i一个个往前挪太费劲了
+            } 
+        }
+        return re;
+        
+    }
+};

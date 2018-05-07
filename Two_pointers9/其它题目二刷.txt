@@ -10,3 +10,6 @@ Minimum Size Subarray Sum
 Merge Sorted Array
 Sort Colors
 Implement strStr()
+Longest Substring Without Repeating Characters
+3Sum
+Find the Duplicate Number
