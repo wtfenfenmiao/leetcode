@@ -13,3 +13,6 @@ Implement strStr()
 Longest Substring Without Repeating Characters
 3Sum
 Find the Duplicate Number
+Reverse String
+Intersection of Two Arrays
+Intersection of Two Arrays II
