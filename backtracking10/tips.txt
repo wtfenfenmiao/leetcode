@@ -1,0 +1,33 @@
+回溯感觉就是暴力强行枚举，撞了南墙就回头，然后换个方向接着撞......
+这个是46 Permutations的代码，是回溯的通用框架
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,nums);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,vector<int>& nums)
+    {
+        if(temp.size()==nums.size())
+            re.push_back(temp);
+        else
+        {
+            for(int i=0;i<nums.size();++i)
+            {
+                vector<int>:: iterator it=find(temp.begin(),temp.end(),nums[i]);
+                if(it!=temp.end())
+                    continue;
+                temp.push_back(nums[i]);
+                backtrack(re,temp,nums);
+                temp.pop_back();
+            }
+        }
+    }
+};
+
+
+
+框架差不多，关键就在回溯条件的定义了，这个要练习

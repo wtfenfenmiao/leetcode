@@ -1,0 +1,31 @@
+//用的框架就是回溯的一般框架，注意这个回溯条件的学习。
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        vector<bool> used(nums.size(),false);
+        sort(nums.begin(),nums.end());
+        backtrack(re,temp,used,nums);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,vector<bool>& used,vector<int>& nums)
+    {
+        if(temp.size()==nums.size())
+            re.push_back(temp);
+        else
+        {
+            for(int i=0;i<nums.size();++i)
+            {
+                if(used[i]||(i>0&&nums[i]==nums[i-1]&&!used[i-1]))
+                    continue;
+                used[i]=true;
+                temp.push_back(nums[i]);
+                backtrack(re,temp,used,nums);
+                used[i]=false;
+                temp.pop_back();
+            }
+        }
+    }
+};

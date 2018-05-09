@@ -1,0 +1,60 @@
+//我写的递归
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> re;
+        if(nums.size()==0)
+        {
+            vector<int> temp;
+            re.push_back(temp);
+        }
+        for(int i=0;i<nums.size();++i)
+        {
+            vector<int> temp(nums);
+            temp.erase(temp.begin()+i);
+            // for(auto x:temp)
+            // {
+            //     cout<<x<<endl;
+            // }
+            // cout<<endl;
+            vector<vector<int>> te=permute(temp);
+            for(int j=0;j<te.size();++j)
+            {
+                te[j].insert(te[j].begin(),nums[i]);
+                re.push_back(te[j]);
+            }
+        }
+        return re;
+    }
+};
+
+
+//****重要******
+//回溯通用框架
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,nums);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,vector<int>& nums)
+    {
+        if(temp.size()==nums.size())
+            re.push_back(temp);
+        else
+        {
+            for(int i=0;i<nums.size();++i)
+            {
+                vector<int>:: iterator it=find(temp.begin(),temp.end(),nums[i]);
+                if(it!=temp.end())
+                    continue;
+                temp.push_back(nums[i]);
+                backtrack(re,temp,nums);
+                temp.pop_back();
+            }
+        }
+    }
+};
