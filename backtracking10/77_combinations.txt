@@ -1,0 +1,27 @@
+//Ì×Ä£°å
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,n,k,1);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,int n,int k,int start)
+    {
+        if(temp.size()==k)
+            re.push_back(temp);
+        if(n-start+1<k-temp.size())
+            return;
+        else
+        {
+            for(int i=start;i<=n;++i)
+            {
+                temp.push_back(i);
+                backtrack(re,temp,n,k,i+1);
+                temp.pop_back();
+            }
+        }
+    }
+};

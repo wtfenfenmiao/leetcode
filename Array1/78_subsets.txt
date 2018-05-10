@@ -15,3 +15,29 @@ public:
         return re;
     }
 };
+
+
+
+
+//回溯，通用模板
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        re.push_back(temp);
+        backtrack(re,temp,nums,0);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,vector<int>& nums,int start)
+    {
+        for(int i=start;i<nums.size();++i)
+        {
+            temp.push_back(nums[i]);
+            re.push_back(temp);
+            backtrack(re,temp,nums,i+1);
+            temp.pop_back();
+        }
+    }
+};
