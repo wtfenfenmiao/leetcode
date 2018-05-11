@@ -1,0 +1,66 @@
+//学学这个面向对象
+//构造一个字典树
+
+struct letterNode{         //这个结点只能这样定义才能弄出来26个指针，就是先定义，然后再在构造函数里resize出26。其余办法都编译不过。这个是从别人代码扒的
+public:
+    letterNode(){
+        children.resize(26);
+        word="";
+    }
+    vector<letterNode*> children;
+    string word;
+};
+
+
+class WordDictionary {
+public:
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root=new letterNode();
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        letterNode* temp=root;
+        for(int i=0;i<word.size();++i)
+        {
+            if(temp->children[word[i]-'a']==NULL)
+                temp->children[word[i]-'a']=new letterNode();
+            temp=temp->children[word[i]-'a'];
+        }
+        temp->word=word;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        return sear(word,0,root);
+    }
+    
+    bool sear(string word,int i,letterNode* root)
+    {
+        if(root==NULL)
+            return false;
+        if(word.size()==i)
+            return !(root->word=="");
+        if(word[i]=='.')
+        {
+            for(int j=0;j<26;++j)
+            {
+                if(sear(word,i+1,root->children[j]))
+                    return true;
+            }
+            return false;
+        }
+        else
+            return sear(word,i+1,root->children[word[i]-'a']);
+    }
+private:
+    letterNode* root;
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
