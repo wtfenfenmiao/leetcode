@@ -1,0 +1,95 @@
+//着急吃饭没写好，回来再写
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,k,n,0,0,1);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,int k,int n,int sum,int num,int start)
+    {
+        if(n-sum>9*(k-num))
+            return;
+        if(num==k)
+        {
+            if(sum==n)
+                re.push_back(temp);
+            else
+                return;
+        }           
+        else
+        {
+            for(int i=start;i<=9;++i)
+            {
+                temp.push_back(i);
+                sum+=i;
+                ++num;
+                backtrack(re,temp,k,n,sum,num,i+1);
+                temp.pop_back();
+                sum-=i;
+                --num;
+            }
+        }
+    }
+};
+
+
+//简化了一点点
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,k,n,1);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,int k,int n,int start)
+    {
+        if(n<0||n>9*(k-temp.size()))
+            return;
+        if(temp.size()==k)
+        {
+            if(n==0)
+                re.push_back(temp);
+            return;
+        }
+        for(int i=start;i<=9;++i)
+        {
+            temp.push_back(i);
+            backtrack(re,temp,k,n-i,i+1);
+            temp.pop_back();
+        }
+        
+    }
+};
+
+
+//啥特殊情况都不考虑也行，因为这个要求每个数字都不能一样，而且必须是1到9之间，这样子本身也不至于条件停不下来，不考虑也多算不了多少......
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> re;
+        vector<int> temp;
+        backtrack(re,temp,k,n,1);
+        return re;
+    }
+    
+    void backtrack(vector<vector<int>>& re,vector<int>& temp,int k,int n,int start)
+    {
+        if(temp.size()==k&&n==0)
+        {
+            re.push_back(temp);
+            return;
+        }
+        for(int i=start;i<=9;++i)
+        {
+            temp.push_back(i);
+            backtrack(re,temp,k,n-i,i+1);
+            temp.pop_back();
+        }
+        
+    }
+};

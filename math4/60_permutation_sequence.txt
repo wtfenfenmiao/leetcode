@@ -31,3 +31,72 @@ public:
         
     }
 };
+
+
+
+//磨磨唧唧的回溯
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<bool> used(n,false);
+        string re;
+        backtrack(n,k,re,used);
+        return re;
+    }
+    
+    void backtrack(int n,int& k,string& re,vector<bool>& used)
+    {
+        if(re.size()==n)
+        {
+            --k;   
+            return;
+        }
+        for(int i=1;i<=n;++i)
+        {
+            if(used[i])
+                continue;
+            char t=i+48;
+            re+=t;
+            used[i]=true;
+            backtrack(n,k,re,used);
+            if(k==0)
+                return;
+            re=re.substr(0,re.size()-1);
+            used[i]=false;
+        }
+    }
+};
+
+//稍稍简化了一点点，但是还是回溯
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<bool> used(n,false);
+        string re;
+        if(k==0||n==0)
+            return re;
+        backtrack(n,k,re,used);
+        return re;
+    }
+    
+    void backtrack(int n,int& k,string& re,vector<bool>& used)
+    {
+        if(re.size()==n)
+        {
+            --k;
+            return;
+        }
+        for(int i=1;i<=n;++i)
+        {
+            if(used[i])
+                continue;
+            re+=(char)(i+48);
+            used[i]=true;
+            backtrack(n,k,re,used);
+            if(k==0)
+                return;
+            re=re.substr(0,re.size()-1);
+            used[i]=false;
+        }
+    }
+};
