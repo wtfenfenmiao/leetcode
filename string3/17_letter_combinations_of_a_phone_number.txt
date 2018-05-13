@@ -30,3 +30,33 @@ public:
         return re2;
     }
 };
+
+
+//»ØËÝ·¨
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {            
+        unordered_map<char,string> lettermap={{'2',"abc"},{'3',"def"},{'4',"ghi"},{'5',"jkl"},{'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"}};
+        vector<string> re;
+        string temp;
+        if(digits=="")
+            return re;
+        backtrack(re,temp,digits,0,lettermap);
+        return re;
+    }
+    
+    void backtrack(vector<string>& re,string& temp,string& digits,int thisnum,unordered_map<char,string>& lettermap)
+    {
+        if(thisnum==digits.size())
+        {
+            re.push_back(temp);
+            return;
+        }
+        for(int i=0;i<lettermap[digits[thisnum]].size();++i)
+        {
+            temp+=lettermap[digits[thisnum]][i];
+            backtrack(re,temp,digits,thisnum+1,lettermap);
+            temp.erase(temp.begin()+temp.size()-1);
+        }
+    }
+};

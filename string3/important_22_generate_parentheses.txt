@@ -47,3 +47,34 @@ public:
         
     }
 };
+
+
+
+//后来写的一个回溯
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> re;
+        string temp;
+        backtrack(re,temp,2*n,0,0);
+        return re;
+    }
+    
+    void backtrack(vector<string>& re,string& temp,int n,int left,int right)
+    {
+        if(right>left)
+            return;
+        if(n==0)
+        {
+            if(left==right)
+                re.push_back(temp);
+            return;
+        }
+        temp+='(';
+        backtrack(re,temp,n-1,left+1,right);
+        temp[temp.size()-1]=')';
+        backtrack(re,temp,n-1,left,right+1);
+        temp.erase(temp.begin()+temp.size()-1);
+    }
+    
+};

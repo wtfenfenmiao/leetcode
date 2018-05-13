@@ -3,3 +3,6 @@ Word Search
 Restore IP Addresses
 Subsets II
 Permutation Sequence
+Combination Sum
+Generate Parentheses
+Letter Combinations of a Phone Number
