@@ -1,0 +1,113 @@
+//这题真是活活被标签骗了，应该深度优先。
+//不能被标成X的O，一定是和边界连着的。所以从边界开始，每个边界的O深度优先往里走，把和它连成片的O都标上，然后遍历四个边界，剩下的O标成X就行
+//这个深度优先可以用递归，也可以用栈
+
+
+//用递归
+class Solution {
+public:
+    int dir1[4]={0,0,1,-1};
+    int dir2[4]={1,-1,0,0};
+    void dfs(int x,int y,vector<vector<char>>& board,vector<vector<bool>>& isvisited,int row,int col)
+    {
+        if(x<0||x>=row||y<0||y>=col)
+            return;
+        if(board[x][y]=='X')
+            return;
+        if(isvisited[x][y])
+            return;
+        isvisited[x][y]=true;
+        for(int i=0;i<4;++i)
+        {
+            dfs(x+dir1[i],y+dir2[i],board,isvisited,row,col);
+        }
+        
+    }
+    
+    void solve(vector<vector<char>>& board) {
+        int row=board.size();
+        if(row==0)
+            return;
+        int col=board[0].size();
+        vector<vector<bool>> isvisited(row,vector<bool>(col,false));
+        int i,j;
+        for(j=0;j<col;++j)
+        {
+            dfs(0,j,board,isvisited,row,col);    
+            dfs(row-1,j,board,isvisited,row,col);
+        }
+        for(i=1;i<row-1;++i)
+        {
+            dfs(i,0,board,isvisited,row,col);
+            dfs(i,col-1,board,isvisited,row,col);
+        }
+        for(i=0;i<row;++i)
+        {
+            for(j=0;j<col;++j)
+            {
+                if(board[i][j]=='O'&&!isvisited[i][j])
+                    board[i][j]='X';
+            }
+        }
+        
+    }
+};
+
+//用栈
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        int row=board.size();
+        if(row==0)
+            return;
+        int col=board[0].size();
+        int dir1[4]={0,0,1,-1};
+        int dir2[4]={1,-1,0,0};
+        for(int i=0;i<row;++i)
+        {
+            for(int j=0;j<col;++j)
+            {
+                if((i==0||i==row-1||j==0||j==col-1)&&board[i][j]=='O')
+                {
+                    queue<pair<int,int>> qu;
+                    pair<int,int> pairtemp(i,j);
+                    board[i][j]='B';
+                    qu.push(pairtemp);
+                    while(!qu.empty())
+                    {
+                        int x=(qu.front()).first;
+                        int y=(qu.front()).second;
+                        qu.pop();
+                        for(int k=0;k<4;++k)
+                        {
+                            int xtemp=x+dir1[k];
+                            int ytemp=y+dir2[k];
+                            if(xtemp>=0&&xtemp<row&&ytemp>=0&&ytemp<col&&board[xtemp][ytemp]=='O')
+                            {
+                                board[xtemp][ytemp]='B';
+                                pair<int,int> pairthis(xtemp,ytemp);
+                                qu.push(pairthis);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+        for(int i=0;i<row;++i)
+        {
+            for(int j=0;j<col;++j)
+            {
+                if(board[i][j]=='B')
+                    board[i][j]='O';
+                else if(board[i][j]=='O')
+                    board[i][j]='X';
+                
+            }
+        }
+        
+    }
+    
+    
+};

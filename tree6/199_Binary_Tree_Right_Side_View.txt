@@ -36,7 +36,7 @@ public:
 };
 
 
-//一个很神奇的算法
+//一个很神奇的算法，回溯的思路
 //The core idea of this algorithm:
 //1.Each depth of the tree only select one node.
 //2. View depth is current size of result list.
