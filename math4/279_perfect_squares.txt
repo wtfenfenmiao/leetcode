@@ -1,4 +1,4 @@
-//用dp
+//用dp，很慢
 class Solution {
 public:
     int numSquares(int n) {
@@ -15,5 +15,89 @@ public:
         }
         return re[n];
             
+    }
+};
+
+
+
+//数论，四平方和定理，答案只能是1234之一
+//速度贼快
+class Solution {
+public:
+    bool is1(int n)
+    {
+        int i=(int)(sqrt(n));
+        return i*i==n;
+    }
+    
+    int numSquares(int n) {
+        if(n==0)
+            return 0;
+        if(is1(n))
+            return 1;
+        while((n&3)==0)     //n%4==0
+            n=n>>2;
+        if((n&7)==7)       //格外注意，这个&的优先级很低，比==低，所以不加括号的话就先算==了
+            return 4;     //n%7==7
+        int i=(int)(sqrt(n));
+        for(int k=1;k<=i;++k)
+        {
+            if(is1(n-k*k))
+                return 2;
+        }
+        return 3;
+    }
+};
+
+
+//广度优先搜索，道理讲起来费点劲，看代码吧，就是一层一层查，先把=1的都弄出来，再根据=1的弄=2的，再弄=3的......
+//速度相比DP快很多
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n==0)
+            return 0;
+        
+        vector<int> baselist;
+        vector<int> savelist(n,0);
+        int k=(int)(sqrt(n));
+        for(int i=1;i<=k;++i)
+        {
+            baselist.push_back(i*i);
+            savelist[i*i-1]=1;
+        }
+        if(savelist[n-1]==1)
+            return 1;
+        
+        queue<int> qu;
+        for(int i=0;i<baselist.size();++i)
+        {
+            qu.push(baselist[i]);
+        }
+        int count=1;
+        
+        while(!qu.empty())
+        {
+            ++count;
+            int si=qu.size();
+            for(int i=0;i<si;++i)
+            {
+                int temp=qu.front();
+                for(int j=0;j<baselist.size();++j)
+                {
+                    int base=baselist[j];
+                    if(temp+base==n)
+                        return count;
+                    if(temp+base<n&&savelist[temp+base-1]==0)
+                    {
+                        savelist[temp+base-1]=count;
+                        qu.push(temp+base);
+                    }
+                    else if(temp+base>n)
+                        break;
+                }
+                qu.pop();
+            }
+        }
     }
 };

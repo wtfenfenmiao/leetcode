@@ -1,0 +1,46 @@
+和130 surrounded regions原理差不多。这确实是广度优先搜索，每一个‘1’往外走的时候是四个方向都看一遍的，而不是一个可行了接着走。确实是广度优先搜索！
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int row=grid.size();
+        if(row==0)
+            return 0;
+        int col=grid[0].size();
+        int count=0;
+        int dir1[4]={0,0,1,-1};
+        int dir2[4]={1,-1,0,0};
+        for(int i=0;i<row;++i)
+        {
+            for(int j=0;j<col;++j)
+            {
+                if(grid[i][j]=='1')
+                {
+                    ++count;
+                    grid[i][j]='2';
+                    queue<pair<int,int>> qu;
+                    pair<int,int> pairtemp(i,j);
+                    qu.push(pairtemp);
+                    while(!qu.empty())
+                    {
+                        int x=qu.front().first;
+                        int y=qu.front().second;
+                        qu.pop();
+                        for(int k=0;k<4;++k)
+                        {
+                            int xtemp=x+dir1[k];
+                            int ytemp=y+dir2[k];
+                            if(xtemp>=0&&xtemp<row&&ytemp>=0&&ytemp<col&&grid[xtemp][ytemp]=='1')
+                            {
+                                grid[xtemp][ytemp]='2';
+                                pair<int,int> ptemp(xtemp,ytemp);
+                                qu.push(ptemp);
+                            }
+                                
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+};
