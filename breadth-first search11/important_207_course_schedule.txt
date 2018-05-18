@@ -1,0 +1,98 @@
+//一个图的问题。这种不太熟，所以标了important
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<vector<bool>> edgeMatrix(numCourses,vector<bool>(numCourses,false));  //邻接矩阵
+        vector<int> dupli(numCourses,0);        //存的相当于是这门课有多少门先修课。必须所有的先修课都修完了这门才能被修
+        for(int i=0;i<prerequisites.size();++i)
+        {
+            int pre=prerequisites[i].second;
+            int thiscou=prerequisites[i].first;
+            edgeMatrix[pre][thiscou]=true;
+            ++dupli[thiscou];   
+        }
+        
+        queue<int> qu;
+        int count=0;
+        for(int i=0;i<numCourses;++i)
+        {
+            if(dupli[i]==0)
+            {
+                qu.push(i);
+                ++count;                   //这个我是在塞进去的时候加，也可以在弹出来的时候加，反正一个结点一定会被塞进去一次弹出来一次，这个没关系
+            }
+                
+        }
+        
+        
+        while(!qu.empty())
+        {
+            int thisc=qu.front();
+            qu.pop();
+            for(int i=0;i<numCourses;++i)
+            {
+                if(edgeMatrix[thisc][i])
+                {
+                    if(dupli[i]==0)
+                        continue;
+                    if(dupli[i]==1)
+                    {
+                        qu.push(i);
+                        ++count;
+                    }
+                    else
+                        --dupli[i];
+                }
+            }
+        }
+        
+        return count==numCourses;
+        
+    }
+};
+
+
+
+//稍微简化了一点点
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<vector<bool>> edgeMatrix(numCourses,vector<bool>(numCourses,false));
+        vector<int> dupli(numCourses,0);
+        for(int i=0;i<prerequisites.size();++i)
+        {
+            int pre=prerequisites[i].second;
+            int thiscou=prerequisites[i].first;
+            edgeMatrix[pre][thiscou]=true;
+            ++dupli[thiscou];
+        }
+        
+        queue<int> qu;
+        for(int i=0;i<numCourses;++i)
+        {
+            if(dupli[i]==0)
+                qu.push(i);
+        }
+        int count=0;
+        while(!qu.empty())
+        {
+            int precou=qu.front();
+            qu.pop();
+            ++count;
+            for(int i=0;i<numCourses;++i)
+            {
+                if(edgeMatrix[precou][i])
+                {
+                    if(dupli[i]!=0)
+                    {
+                        if(--dupli[i]==0)
+                        {
+                            qu.push(i);
+                        }
+                    }
+                }
+            }
+        }
+        return count==numCourses;
+    }
+};

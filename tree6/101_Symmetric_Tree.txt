@@ -23,3 +23,68 @@ public:
 
     
 };
+
+
+//非递归的方法
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL)
+            return true;
+        if(root->left==NULL&&root->right==NULL)
+            return true;
+        if(root->left==NULL||root->right==NULL)
+            return false;
+        
+        queue<TreeNode*> qu;
+        qu.push(root->left);
+        qu.push(root->right);
+        
+        while(!qu.empty())
+        {
+            TreeNode* left=qu.front();
+            qu.pop();
+            TreeNode* right=qu.front();
+            qu.pop();
+            if(left->val!=right->val)
+            {
+                //cout<<"1"<<endl;
+                return false;
+            }
+                
+            if(left->left&&right->right)
+            {
+                qu.push(left->left);
+                qu.push(right->right);
+            }
+            else if(!(left->left==NULL&&right->right==NULL))
+            {
+                //cout<<"2"<<endl;
+                return false;
+            }
+                
+            
+            if(left->right&&right->left)
+            {
+                qu.push(left->right);
+                qu.push(right->left);
+            }
+            else if(!(left->right==NULL&&right->left==NULL))
+            {
+                //cout<<"3"<<endl;
+                return false;
+            }
+                
+        }
+        return true;
+    }
+};
