@@ -1,0 +1,77 @@
+//广度优先遍历
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if(node==NULL)
+            return NULL;
+        queue<UndirectedGraphNode*> qu;
+        unordered_map<int,UndirectedGraphNode*> nodemap;
+        UndirectedGraphNode *nodere=new UndirectedGraphNode(node->label);
+        qu.push(node);
+        nodemap[node->label]=nodere;
+        
+        while(!qu.empty())
+        {
+            UndirectedGraphNode *temp=qu.front();
+            qu.pop();
+            for(int i=0;i<(temp->neighbors).size();++i)
+            {
+                int labelthis=temp->neighbors[i]->label;
+                if(nodemap.find(labelthis)==nodemap.end())
+                {
+                    qu.push(temp->neighbors[i]);
+                    UndirectedGraphNode *nodethis=new UndirectedGraphNode(labelthis);
+                    nodemap[labelthis]=nodethis;
+                    nodemap[temp->label]->neighbors.push_back(nodethis);
+                }
+                else
+                    nodemap[temp->label]->neighbors.push_back(nodemap[labelthis]);
+            }
+        }
+        return nodere;
+    }
+};
+
+
+//深度优先遍历，用递归实现
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if(node==NULL)
+            return NULL;
+        return clonehelp(node);
+    }
+    
+    UndirectedGraphNode *clonehelp(UndirectedGraphNode *node){
+        if(nodemap.find(node->label)!=nodemap.end())
+            return nodemap[node->label];
+        
+        UndirectedGraphNode *nodethis=new UndirectedGraphNode(node->label);
+        nodemap[node->label]=nodethis;
+        for(int i=0;i<node->neighbors.size();++i)
+        {
+            nodethis->neighbors.push_back(clonehelp(node->neighbors[i]));
+        }
+        return nodethis;
+    }
+    
+    
+private:
+    unordered_map<int,UndirectedGraphNode*> nodemap;
+};
