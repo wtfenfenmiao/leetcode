@@ -55,3 +55,35 @@ public:
         return re;
     }
 };
+
+//另一种用栈，其实差不多
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> re;
+        stack<TreeNode*> st;
+        if(root==NULL)
+            return re;
+        st.push(root);
+        while(!st.empty())
+        {
+            TreeNode* temp=st.top();
+            st.pop();
+            re.push_back(temp->val);
+            if(temp->right)
+                st.push(temp->right);
+            if(temp->left)
+                st.push(temp->left);
+        }
+        return re;
+    }
+};
