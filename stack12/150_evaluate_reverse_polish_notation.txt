@@ -1,0 +1,70 @@
+//逆波兰式，弄成这样就是用栈好弄
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        map<string,int> fuhao={{"+",0},{"-",1},{"*",2},{"/",3}};
+        for(int i=0;i<tokens.size();++i)
+        {
+            if(isnum(tokens[i]))
+                st.push(atoi(tokens[i].c_str()));
+            else
+            {
+                int af=st.top();
+                st.pop();
+                int be=st.top();
+                st.pop();
+                int result;
+                switch(fuhao[tokens[i]])
+                {
+                    case 0:result=be+af;break;
+                    case 1:result=be-af;break;
+                    case 2:result=be*af;break;
+                    case 3:result=be/af;break;
+                    default:break;
+                }
+                st.push(result);
+                
+            }
+        }
+        return st.top();
+    }
+    
+    bool isnum(string str)
+    {
+        if(str.size()==1&&(str[0]<'0'||str[0]>'9'))
+            return false;
+        return true;
+    }
+    
+
+};
+
+
+//代码简化一点
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        unordered_map<string,int> list={{"+",0},{"-",1},{"*",2},{"/",3}};
+        int be=0;
+        int af=0;  //注意：switch里面不能定义变量！
+        for(int i=0;i<tokens.size();++i)
+        {
+            if(list.find(tokens[i])==list.end())
+            {
+                st.push(atoi(tokens[i].c_str()));
+                continue;
+            }          
+            switch(list[tokens[i]])
+            {
+                case 0:af=st.top();st.pop();be=st.top();st.pop();st.push(be+af);break;
+                case 1:af=st.top();st.pop();be=st.top();st.pop();st.push(be-af);break;
+                case 2:af=st.top();st.pop();be=st.top();st.pop();st.push(be*af);break;
+                case 3:af=st.top();st.pop();be=st.top();st.pop();st.push(be/af);break;
+                default:break;
+            }
+        }
+        return st.top();
+    }
+};
