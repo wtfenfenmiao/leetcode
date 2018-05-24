@@ -16,3 +16,31 @@ public:
         return re.empty()?"/":re;
     }
 };
+
+//原理一样，用栈。注意这个stringstream的用法
+class Solution {
+public:
+    string simplifyPath(string path) {
+        string re="";
+        stringstream ss(path);
+        string temp;
+        stack<string> st;
+        while(getline(ss,temp,'/'))
+        {
+            if(temp==""||temp==".") continue;
+            if(temp==".."&&!st.empty()) st.pop();
+            else if(temp!="..")
+                st.push(temp);
+        }
+        if(st.empty())
+            return "/";
+        while(!st.empty())
+        {
+            re="/"+st.top()+re;
+            st.pop();
+        }
+        return re;
+            
+    }
+};
+

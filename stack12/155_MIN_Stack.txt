@@ -1,0 +1,113 @@
+//很巧妙，用的链表
+//这个thisNode的类定义可以挪到MinStack的private里，变成MinStack私有的
+class thisNode{
+public:
+    int val;
+    thisNode* next;
+    int min;    
+    thisNode(int val,int min,thisNode* next){
+        this->val=val;
+        this->next=next;
+        this->min=min;            
+    }   
+};
+
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+
+    }   
+    void push(int x) {
+        if(head==NULL)
+        {
+            head=new thisNode(x,x,NULL);
+        }
+        else
+        {
+            head=new thisNode(x,min(x,head->min),head);
+        }
+    }
+    
+    void pop() {
+        head=head->next;
+    }
+    
+    int top() {
+        return head->val;
+    }
+    
+    int getMin() {
+        return head->min;
+    }
+private:   
+    thisNode* head=NULL;     //这个NULL一定要加上啊！要不指针乱飞！！！惨痛教训
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+
+
+
+//把thisNode挪进去：
+
+
+
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        if(head==NULL)
+        {
+            head=new thisNode(x,x,NULL);
+        }
+        else
+        {
+            head=new thisNode(x,min(x,head->min),head);
+        }
+    }
+    
+    void pop() {
+        head=head->next;
+    }
+    
+    int top() {
+        return head->val;
+    }
+    
+    int getMin() {
+        return head->min;
+    }
+private:
+    class thisNode{
+    public:
+        int val;
+        int min;
+        thisNode* next;
+        thisNode(int val,int min,thisNode* next){
+            this->val=val;
+            this->min=min;
+            this->next=next;
+        }
+    };
+    thisNode* head=NULL;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */

@@ -1,3 +1,5 @@
 Binary Tree Inorder Traversal
 Binary Tree Preorder Traversal
 Binary Search Tree Iterator
+Simplify Path
+Valid Parentheses
