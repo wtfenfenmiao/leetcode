@@ -1,0 +1,22 @@
+//用的贪心，没用DP
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        if(nums.size()<2)
+            return nums.size();
+        int diff=nums[1]-nums[0];
+        int re=diff==0?1:2;
+        int prevdiff=diff;
+        for(int i=2;i<nums.size();++i)
+        {
+            diff=nums[i]-nums[i-1];
+            if(diff<0&&prevdiff>=0||diff>0&&prevdiff<=0)
+            {
+                ++re;
+                prevdiff=diff;
+            }
+            
+        }
+        return re;
+    }
+};

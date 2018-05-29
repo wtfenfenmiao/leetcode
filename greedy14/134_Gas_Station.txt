@@ -1,0 +1,53 @@
+//我自己的，暴力解，时间特别久
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int start;
+        for(start=0;start<gas.size();++start)
+        {
+            //cout<<start<<endl;
+            int count=0;
+            int now=0;
+            for(int i=start;count<gas.size();++i,++count)
+            {
+                i=i%gas.size();
+                if(now+gas[i]<cost[i])
+                    break; 
+                //cout<<"i:"<<i<<endl;
+                now=now+gas[i]-cost[i];
+                //cout<<"now:"<<now<<endl;
+            }
+            if(count==gas.size())
+                return start;
+        }
+        return -1;
+
+    }
+};
+
+
+
+//神奇的操作，基于两个假设：
+//如果从A出发，B是第一个到不了的站，那A和B之间的站出发也到不了B。
+//gas的总量大于等于cost的总量的话，一定会有解
+//这种很快，时间复杂度是O（n）
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int tank=0;
+        int total=0;
+        int start=0;
+        for(int i=0;i<gas.size();++i)
+        {
+            tank=tank+gas[i]-cost[i];
+            if(tank<0)
+            {
+                total+=tank;
+                tank=0;
+                start=i+1;
+            }
+        }
+        return (total+tank>=0)?start:-1;
+    }
+};
+
