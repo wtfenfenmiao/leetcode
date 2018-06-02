@@ -1,0 +1,16 @@
+//single number系列，套路，套路
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int x1=0,x2=0,mask=0;     //x弄几个根据k来算，logk个
+        for(int i=0;i<nums.size();++i)
+        {
+            x2^=(x1&nums[i]);
+            x1^=nums[i];
+            mask=~(x2&x1);
+            x2&=mask;
+            x1&=mask;
+        }
+        return x1;
+    }
+};

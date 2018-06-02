@@ -32,3 +32,78 @@ public:
         return re;
     }
 };
+
+//一样的思路但是简化了很多，少了个循环的时间复杂度
+class Solution {
+
+public:
+
+    vector<string> findRepeatedDnaSequences(string s) {
+
+        vector<string> re;
+
+        unordered_set<int> first;
+
+        unordered_set<int> second;
+
+        if(s.size()<=10)
+
+            return re;
+
+        unordered_map<int,int> map;
+
+        map['A'-'A']=0;
+
+        map['G'-'A']=1;
+
+        map['C'-'A']=2;
+
+        map['T'-'A']=3;
+
+        int v=0;
+
+        for(int i=0;i<10;++i)
+
+        {
+
+            v=(v<<2);
+
+            v|=map[s[i]-'A'];
+
+        }
+
+        first.insert(v);
+
+        int i=10;
+
+        while(i<s.size())
+
+        {
+
+            v=(v<<2);
+
+            v&=0xfffff;
+
+            v|=map[s[i]-'A'];
+
+            if(first.find(v)!=first.end()&&second.find(v)==second.end())
+
+            {
+
+                re.push_back(s.substr(i-9,10));
+
+                second.insert(v);
+
+            }
+
+            first.insert(v);
+
+            ++i;
+
+        }
+
+        return re;
+
+    }
+
+};

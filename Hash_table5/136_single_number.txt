@@ -12,3 +12,38 @@ public:
 };
 
 //hash±í
+class Solution {
+
+public:
+
+    int singleNumber(vector<int>& nums) {
+
+        unordered_set<int> haset;
+
+        unordered_set<int>::iterator iter;
+
+        for(int i=0;i<nums.size();++i)
+
+        {
+
+            iter=haset.find(nums[i]);
+
+            if(iter==haset.end())
+
+            {
+
+                haset.insert(nums[i]);
+
+            }
+
+            else
+
+                haset.erase(iter);
+
+        }
+
+        return *haset.begin();
+
+    }
+
+};
