@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int temp=1;
+        int count=0;
+        for(int i=0;i<32;++i)     //不要用temp和n比，-INT_MIN那个数的溢出解决不了！
+        {
+            if((temp&n)!=0)
+                ++count;
+            temp<<=1;
+        }
+        return count;
+    }
+};
