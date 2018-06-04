@@ -24,7 +24,7 @@ public:
         }
         k=k%count;
         if(k==0)
-            return head;
+            return head;     //这个不加也行
         fast=head;
         while(k--)
         {
@@ -41,5 +41,103 @@ public:
         
         
         return head;
+    }
+};
+
+
+//理解题意错了的一个......也放上来吧
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        int count=0;
+        ListNode* fi=head;
+        ListNode* re;
+        while(fi!=NULL)
+        {
+            ++count;
+            fi=fi->next;
+        }
+        k=count-k%count-1;
+        fi=head;
+        while(k--)
+        {
+            fi=fi->next;
+        }
+        ListNode* first=fi->next;
+        re=reverse_linklist(head,first);
+        fi->next=NULL;
+        cout<<"there3"<<endl;
+
+        
+        return re;
+        
+        
+    }
+    
+    ListNode* reverse_linklist(ListNode* pre,ListNode* fi)
+    {
+        while(fi!=NULL)
+        {
+            ListNode* temp=fi->next;
+            fi->next=pre;
+            pre=fi;
+            fi=temp;
+        }
+        return pre;       
+    }
+};
+
+
+//十分墨迹写对了
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head==NULL)
+            return NULL;
+        ListNode* fast=head;
+        ListNode* slow=head;
+        int n=k;
+        while(fast!=NULL&&k--)
+        {
+            fast=fast->next;
+        }
+        if(k!=0)
+        {
+            n=n%(n-k);   
+            if(n==0)
+                return head;
+            fast=head;
+            while(n--)
+                fast=fast->next;
+        }
+        if(fast==NULL)
+            return head;
+        while(fast->next!=NULL)
+        {
+            fast=fast->next;
+            slow=slow->next;
+        }
+        ListNode* headnew=slow->next;
+        slow->next=NULL;
+        fast->next=head;
+        return headnew;
+        
+            
     }
 };

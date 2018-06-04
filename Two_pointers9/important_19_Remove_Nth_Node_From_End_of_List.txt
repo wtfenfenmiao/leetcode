@@ -29,3 +29,48 @@ public:
         return head;
     }
 };
+
+
+
+//后来又写了一遍
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+//这一段是从前到后删除第n个的
+//     ListNode* removeNthFromEnd(ListNode* head, int n) {
+//         ListNode** fi=&head;
+//         ListNode** re=fi;
+//         while(n--)
+//         {
+//             fi=&((*fi)->next);
+            
+//         }
+//         *fi=(*fi)->next;
+//         return *re;
+//     }
+       ListNode* removeNthFromEnd(ListNode* head, int n) {
+           ListNode* fast=head;
+           ListNode** slow=&head;
+           ListNode** re=slow;
+           int count=n;
+           while(count--)
+           {
+               fast=fast->next;
+           }
+           while(fast!=NULL)
+           {
+               fast=fast->next;
+               slow=&((*slow)->next);
+           }
+           *slow=(*slow)->next;
+           return *re;
+        
+       }
+};

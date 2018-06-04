@@ -1,8 +1,105 @@
-//排个序取中间的就行
+﻿//排个序取中间的就行
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         sort(nums.begin(),nums.end());
         return nums[nums.size()/2];
+    }
+};
+
+//hash表
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int,int> numlist;
+        for(int i=0;i<nums.size();++i)
+        {
+            if(++numlist[nums[i]]>nums.size()/2)
+                return nums[i];
+        }
+    }
+};
+
+//随机数
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        while(true)
+        {
+            int randnum=nums[rand()%nums.size()];
+            int count=0;
+            for(int i=0;i<nums.size();++i)
+            {
+                if(nums[i]==randnum)
+                    ++count;
+                if(count>nums.size()/2)
+                    return randnum;
+            }
+        }
+    }
+};
+
+//位运算
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int mask=1;
+        int re=0;
+        for(int i=0;i<32;++i)
+        {
+            int count=0;
+            for(int j=0;j<nums.size();++j)
+            {
+                if((nums[j]&mask)!=0)
+                    ++count;
+                if(count>nums.size()/2)
+                {
+                    re|=mask;
+                    break;
+                }          
+            }
+            mask<<=1;
+        }
+        return re;
+    }
+};
+
+
+//moore voting algorithm
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count=0;
+        int nownum=0;
+        for(int i=0;i<nums.size();++i)
+        {
+            if(count==0)
+            {
+                nownum=nums[i];
+                ++count;
+            }
+            else
+                count+=nums[i]==nownum?1:-1;
+        }
+        return nownum;
+    }
+};
+
+
+//分治法，divide and conquer
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        return majority(nums,0,nums.size()-1);
+    }
+    
+    int majority(vector<int>& nums,int left,int right)
+    {
+        if(left==right) return nums[left];
+        int mid=(left+right)/2;
+        int lm=majority(nums,left,mid);
+        int rm=majority(nums,mid+1,right);
+        if(lm==rm) return lm;
+        return count(nums.begin()+left,nums.begin()+right+1,lm)>count(nums.begin()+left,nums.begin()+right+1,rm)?lm:rm;
     }
 };

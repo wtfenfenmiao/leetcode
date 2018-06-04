@@ -3,3 +3,4 @@ Repeated DNA Sequences
 Power of Two
 Missing Number
 Single Number
+Majority Element
