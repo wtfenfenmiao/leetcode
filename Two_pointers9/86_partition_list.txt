@@ -1,4 +1,5 @@
 //分两个再合一块
+//注意，那两个新链表，除了头节点，没有新的结点，只是改地址，疯狂改地址，结点没有动
 /**
  * Definition for singly-linked list.
  * struct ListNode {

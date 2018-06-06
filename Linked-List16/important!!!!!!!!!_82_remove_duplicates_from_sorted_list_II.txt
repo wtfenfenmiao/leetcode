@@ -1,0 +1,148 @@
+//被**这种问题折磨得要死要活。我决定不深想了，接受对的，要不总想错的哪错硬想想不出来，就先建立感觉吧
+//记念这次史诗级调代码，学会了一个骚操作，直接输出地址，看看这些变量到底家都住哪，分辨是不是同一个神器
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* re=head;
+        ListNode** thisdel=&head;   //之前这个弄成了&re，return直接就是空了......re的值可是一直变的！不是一直是开头那个!
+        ListNode** re2=thisdel;    
+        while(re)
+        {
+            //cout<<"start"<<endl;
+            //cout<<re->val<<endl;
+            bool flag=false;
+            while(re->next&&re->val==re->next->val)
+            {
+                //cout<<"there3"<<endl;
+                flag=true;
+                re->next=re->next->next;
+                //ListNode* temp=head;
+                // while(temp)
+                // {
+                //     //cout<<temp->val<<endl;
+                //     temp=temp->next;
+                // }
+            }
+            if(flag)
+            {
+                //cout<<"there"<<endl;
+                //cout<<(*thisdel)->val<<endl;
+                *thisdel=(*thisdel)->next;
+                re=*thisdel;
+                //cout<<(*thisdel)->val<<endl;
+                //ListNode* temp=head;
+                // while(temp)
+                // {
+                //     cout<<temp->val<<endl;
+                //     temp=temp->next;
+                // }
+            }
+            else
+            {
+                //cout<<"there2"<<endl;
+                //cout<<re->val<<endl;
+                thisdel=&(re->next);
+                re=re->next;     
+                //这里不能re=re->next;thisdel=&re,因为这里re的地址一直是最开始ListNode* re=head的时候分配的地址，是不变的！也就是说无论怎样这个&re都是无效的！
+                //这个re就是一个，普通变量，单独拿出来辅助用的，和链表不是一个链，相当于是一个链加一个筐。
+//我们要做的是操作这个链，而不是这个筐，所以地址什么的都要用链的地址，用那个链上的地址，这个是核心操作
+                
+                //这些打印都留着，长点教训
+                // cout<<&(re->next)<<endl;
+                // cout<<&((*thisdel)->next)<<endl;
+                // cout<<&(re->next)<<endl;
+                // cout<<&re<<endl;
+                // cout<<thisdel<<endl;
+                // thisdel=&(re->next);
+                // re=re->next;
+                // cout<<&re<<endl;
+                // cout<<thisdel<<endl;
+                
+                //cout<<thisdel<<endl;
+               // cout<<re->val<<endl;
+               
+            }
+        }    
+            
+        return *re2;
+    }
+};
+
+
+//简洁不纠结版
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode **thisdel=&head;
+        ListNode *re=head;
+        ListNode **re2=&head;
+        while(re)
+        {
+            bool flag=false;
+            while(re->next&&re->val==re->next->val)
+            {
+                flag=true;
+                re->next=re->next->next;
+            }
+            if(flag)
+            {
+                (*thisdel)=(*thisdel)->next;
+                re=*thisdel;
+            }
+            else
+            {
+                thisdel=&(re->next);
+                re=*thisdel;
+            }
+        }
+        return *re2;
+        
+    }
+};
+
+
+//大佬的清晰版，这个**，还得练
+//ListNode*这种的，就属于链外操作，我们要改的是这个链，链外操作只是辅助，不影响链的。多体会体会。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode** runner=&head;
+        while(*runner)
+        {
+            if((*runner)->next&&(*runner)->val==(*runner)->next->val)
+            {
+                ListNode* temp=*runner;
+                while(temp&&temp->val==(*runner)->val)
+                    temp=temp->next;   //这只是一个，查找工作，那个链一点都没动，只是筐里的东西一直在变
+                *runner=temp;
+            }
+            else
+                runner=&((*runner)->next);
+        }
+        return head;
+    }
+};
