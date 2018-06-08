@@ -1,0 +1,46 @@
+//非递归办法
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* pre=NULL;
+        ListNode* thisNode=head;
+        while(thisNode)
+        {
+            ListNode* temp=thisNode->next;
+            thisNode->next=pre;
+            pre=thisNode;
+            thisNode=temp;
+        }
+        return pre;
+    }
+};
+
+//递归办法，竟然是我一年前最先想到的，很神奇
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(!head||!head->next)
+            return head;
+        ListNode* re=reverseList(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return re;
+        
+    }
+};
