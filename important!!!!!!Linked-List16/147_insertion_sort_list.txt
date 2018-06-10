@@ -1,0 +1,109 @@
+//我自己写的，有点麻烦
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if(head==NULL)
+            return NULL;
+        ListNode* newhead=new ListNode(0);       //终于有了这个意识，可以加一个头节点，避开**
+        newhead->next=head;
+        ListNode* thisInsertpre=head;
+        ListNode* thisInsert=head->next;
+        
+        while(thisInsert)
+        {
+            ListNode* start=newhead;
+            while(start!=thisInsertpre&&start->next->val<thisInsert->val)
+                start=start->next;
+            if(start==thisInsertpre)
+            {
+                thisInsertpre=thisInsertpre->next;
+                thisInsert=thisInsertpre->next;
+            }
+            else
+            {
+                thisInsertpre->next=thisInsert->next;
+                thisInsert->next=start->next;
+                start->next=thisInsert;
+                thisInsert=thisInsertpre->next;
+            }         
+        }
+        return newhead->next;
+    }
+};
+
+
+//和我的思路差不多的
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode* newhead=new ListNode(0);
+        newhead->next=head;
+        ListNode* pre=newhead;
+        ListNode* haveinse=head;
+        while(haveinse)
+        {
+            if(haveinse->next&&haveinse->val>haveinse->next->val)
+            {
+                while(pre->next->val<haveinse->next->val)
+                    pre=pre->next;
+                ListNode* thisInsert=haveinse->next;
+                haveinse->next=thisInsert->next; 
+                thisInsert->next=pre->next;
+                pre->next=thisInsert;
+                pre=newhead;
+            }
+            else
+            {
+                haveinse=haveinse->next;
+            }
+        }
+        return newhead->next;
+    }
+};
+
+
+//更简单一点的
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode* newhead=new ListNode(0);
+        ListNode* pre=newhead;
+        ListNode* thisInsert=head;
+        ListNode* nextInsert=NULL;
+        while(thisInsert)
+        {
+            nextInsert=thisInsert->next;
+            while(pre->next&&pre->next->val<thisInsert->val)
+                pre=pre->next;
+            thisInsert->next=pre->next;
+            pre->next=thisInsert;
+            pre=newhead;
+            thisInsert=nextInsert;
+        }
+        return newhead->next;
+    }
+};

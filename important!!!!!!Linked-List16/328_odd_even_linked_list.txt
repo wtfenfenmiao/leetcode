@@ -1,0 +1,59 @@
+//我写的
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head==NULL||head->next==NULL)
+            return head;
+        ListNode* pretoIn=head;
+        ListNode* preIn=head->next;
+        
+        while(preIn&&preIn->next)
+        {
+            ListNode* thisInsert=preIn->next;
+            preIn->next=thisInsert->next;
+            thisInsert->next=pretoIn->next;
+            pretoIn->next=thisInsert;
+            pretoIn=pretoIn->next;
+            preIn=preIn->next;
+        }
+        return head;
+    }
+};
+
+//更简单的
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head==NULL)
+            return head;
+        ListNode* odd=head;
+        ListNode* even=head->next;
+        ListNode* evenhead=even;
+        while(even&&even->next)
+        {
+            odd->next=odd->next->next;
+            even->next=even->next->next;
+            odd=odd->next;
+            even=even->next;
+        }
+        odd->next=evenhead;
+        return head;
+        
+    }
+};
