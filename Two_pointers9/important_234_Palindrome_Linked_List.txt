@@ -46,3 +46,55 @@ public:
         return pre;
     }
 };
+
+
+//意思类似，又写了一次
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL||head->next==NULL)
+            return true;
+        ListNode* fast=head;
+        ListNode* slow=head;
+        while(fast&&fast->next&&fast->next->next)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        rever(slow);
+        slow=slow->next;
+        while(slow&&slow->val==head->val)
+        {
+            slow=slow->next;
+            head=head->next;
+        }
+        if(slow)
+            return false;
+        else
+            return true;
+        
+    }
+    void rever(ListNode* slow)
+    {
+        ListNode* pre=slow->next;
+        ListNode* thisNode=pre->next;
+        pre->next=NULL;
+        while(thisNode)
+        {
+            ListNode* temp=thisNode->next;
+            thisNode->next=pre;
+            pre=thisNode;
+            thisNode=temp;
+        }
+        slow->next=pre;
+        
+    }
+};
