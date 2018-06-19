@@ -32,3 +32,44 @@ public:
         return Nodemap.find(head)->second;
     }
 };
+
+
+//和上面思路差不多，第一圈弄正常的链表，第二圈填乱指的指针
+/**
+ * Definition for singly-linked list with a random pointer.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        //先写一个直观的，扫两圈。
+        unordered_map<RandomListNode*,RandomListNode*> findmap;
+        if(!head)
+            return NULL;
+        RandomListNode* newhead=new RandomListNode(head->label);
+        RandomListNode* preNode=newhead;
+        findmap.insert(pair<RandomListNode*,RandomListNode*>(head,newhead));
+        RandomListNode* oldthis=head->next;
+        while(oldthis)
+        {
+            RandomListNode* thisNode=new RandomListNode(oldthis->label);
+            preNode->next=thisNode;
+            preNode=thisNode;
+            findmap.insert(pair<RandomListNode*,RandomListNode*>(oldthis,thisNode));
+            oldthis=oldthis->next;
+        }
+        RandomListNode* start=newhead;
+        while(start)
+        {
+            start->random=findmap[head->random];
+            start=start->next;
+            head=head->next;
+        }
+        return newhead;
+        
+    }
+};

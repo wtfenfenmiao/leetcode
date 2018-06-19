@@ -1,0 +1,71 @@
+//第一种办法，hash表。空间复杂度高
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_set<ListNode*> tofind;
+        while(headA)
+        {
+            tofind.insert(headA);
+            headA=headA->next;
+        }
+        while(headB)
+        {
+            if(tofind.find(headB)!=tofind.end())
+                break;
+            headB=headB->next;
+        }
+        return headB;
+    }
+};
+
+
+//双指针
+//首先，两个指针都指在两个链表的开头，然后一起往后走，哪个先到头了就到另一个链表的开头开始重新走。如果俩指针碰上了，这个就是交汇点
+//这个过程在纸上画一下，三段分别设置成abc，然后减一下，就能很直观的看出来为啥这样子对了
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if((headA&&!headB)||(headB&&!headA))
+            return NULL;
+        ListNode* pointer1=headA;
+        ListNode* pointer2=headB;
+        while(true)
+        {
+            while(pointer1&&pointer2)
+            {
+                if(pointer1==pointer2)
+                {
+                    return pointer1;
+                }
+                pointer1=pointer1->next;
+                pointer2=pointer2->next;
+            }
+            if(!pointer1&&!pointer2)
+                return NULL;  
+            if(pointer1)
+            {
+                pointer2=headA;
+            }
+            else
+                pointer1=headB;
+        }
+        
+    }
+    
+};
