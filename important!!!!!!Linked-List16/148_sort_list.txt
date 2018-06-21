@@ -1,0 +1,59 @@
+//先分两半sort，然后再merge
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        //分两半sort再merge
+        if(!head||!head->next)
+            return head;
+        ListNode* fast=head;
+        ListNode* slow=head;
+        while(fast&&fast->next&&fast->next->next)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        ListNode* newhead=slow->next;
+        slow->next=NULL;
+        head=sortList(head);
+        newhead=sortList(newhead);
+        return merge(head,newhead);
+    }
+    
+    ListNode* merge(ListNode* l1,ListNode* l2)
+    {
+        ListNode* p=new ListNode(0);
+        ListNode* head=p;
+        while(l1&&l2)
+        {
+            if(l1->val>l2->val)
+            {
+                head->next=l2;
+                l2=l2->next;
+            }
+            else
+            {
+                head->next=l1;
+                l1=l1->next;
+            }
+            head=head->next;
+        }
+        head->next=l1?l1:l2;
+        // ListNode* co=p->next;    //这一段是开始写错了打印debug用的
+        // while(co)
+        // {
+        //     cout<<co->val<<endl;
+        //     co=co->next;
+        // }
+        // cout<<endl;
+        return p->next;
+        
+    }
+};

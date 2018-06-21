@@ -1,0 +1,71 @@
+//dp的思想。
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        int num=primes.size();
+        vector<int> index(num,0);
+        vector<int> re(n,0);
+        re[0]=1;
+        for(int i=1;i<n;++i)
+        {
+            int minnum=INT_MAX;
+            for(int j=0;j<num;++j)
+            {
+                minnum=min(minnum,re[index[j]]*primes[j]);
+            }
+            for(int j=0;j<num;++j)
+            {
+                if(re[index[j]]*primes[j]==minnum)
+                    ++index[j];
+            }
+            re[i]=minnum;
+        }
+        return re[n-1];
+    }
+};
+
+这个方法多练练~~~重要在这里
+//dp的用空间换时间，减时间复杂度的版本，有点难懂，但是缓缓脑子也能看懂。
+//总的思路和上面是一样的，这个想办法把上面的下一个循环去掉了，本质上是一样的，先赋值还是后赋值的问题
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        vector<int> re(n,0);
+        vector<int> index(primes.size(),0);
+        vector<int> val(primes.size(),1);
+        int next=1;
+        for(int i=0;i<n;++i)
+        {
+            re[i]=next;
+            next=INT_MAX;
+            for(int j=0;j<primes.size();++j)
+            {
+                if(val[j]==re[i])  val[j]=primes[j]*re[index[j]++];
+                next=min(next,val[j]);
+            }
+        }
+        return re[n-1];
+    }
+};
+
+
+//堆
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        priority_queue<long int,vector<long int>,greater<long int>> heap;
+        heap.push(1);
+        for(int i=1;i<n;++i)
+        {
+            long int temp=heap.top();
+            heap.pop();
+            while(!heap.empty()&&heap.top()==temp) heap.pop();
+            for(int j=0;j<primes.size();++j)
+            {
+                heap.push(temp*primes[j]);
+            }
+            
+        }
+        return heap.top();
+    }
+};

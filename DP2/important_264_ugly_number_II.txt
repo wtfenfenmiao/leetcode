@@ -19,3 +19,26 @@ public:
         return re[n-1];
     }
 };
+
+
+
+//用堆
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        //priority_queue<int> 这个是最大堆
+        priority_queue<long int,vector<long int>,greater<long int>> heap;    //这个就是最小堆，小的在上面
+    
+        heap.push(1);
+        for(int i=1;i<n;++i)
+        {
+            long int temp=heap.top();  
+            heap.pop();
+            while(!heap.empty()&&temp==heap.top()) heap.pop();
+            heap.push(temp*2);
+            heap.push(temp*3);
+            heap.push(temp*5);
+        }
+        return heap.top();
+    }
+};

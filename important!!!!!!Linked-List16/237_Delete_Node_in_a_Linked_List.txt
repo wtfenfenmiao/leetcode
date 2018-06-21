@@ -1,0 +1,20 @@
+//解法是鸠占鹊巢，嗯。一个感觉有点不要脸的解法，并没有删除这个节点，而是这个节点变了脸，直接把下一个节点当成炮灰了。
+//有一点不懂**这种删除自己不让下一个当炮灰的为啥不行，想不通啊想不通，哪天知道了一定要告诉我
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        //一行就行，但是最好把下一个炮灰节点删了。而且我不是很懂啊，为啥**的办法不行，就是之前用的，用**的办法删除节点这里咋就不行了？
+        //*node=*(node->next);
+        ListNode* nex=node->next;
+        *node=*nex;
+        delete nex;
+    }
+};
