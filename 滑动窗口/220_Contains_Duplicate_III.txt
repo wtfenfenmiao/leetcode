@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+        set<long long int> window;
+        for(int i=0;i<nums.size();++i)
+        {
+            if(i>k) window.erase((long long int)nums[i-k-1]);
+            long long int lower=(long long int)nums[i]-t;
+            set<long long int>::iterator it=window.lower_bound(lower);
+            if(it!=window.end()&&*it<=(long long int)(nums[i])+t)
+                return true;
+            window.insert((long long int)nums[i]);
+        }
+        return false;
+    }
+};

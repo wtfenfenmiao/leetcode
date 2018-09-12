@@ -1,0 +1,58 @@
+遇到符号就分两部分求值，然后左右两部分合一起。层层递归。
+
+class Solution {
+public:
+    vector<int> diffWaysToCompute(string input) {
+        vector<int> re;
+        re=findValue(input);
+        return re;
+    }
+    int comp(int a,int b,char ope)
+    {
+        switch(ope)
+        {
+            case '*':return a*b;break;
+            case '-':return a-b;break;
+            case '+':return a+b;break;
+            default:break;
+        }
+        return 0;
+    }
+    
+    vector<int> findValue(string input)
+    {
+        vector<int> re;
+        if(input.size()==1&&isdigit(input[0]))
+        {
+            re.push_back(input[0]-'0');
+            return re;
+        }
+        
+        int temp=0;
+        bool flag=true;
+        for(int i=0;i<input.size();++i)
+        {
+            if(!isdigit(input[i]))
+            {
+                flag=false;
+                vector<int> left=findValue(input.substr(0,i));
+                vector<int> right=findValue(input.substr(i+1));
+                for(int k=0;k<left.size();++k)
+                {
+                    for(int j=0;j<right.size();++j)
+                    {
+                        re.push_back(comp(left[k],right[j],input[i]));                        
+                    }
+                        
+                }
+            }
+            if(flag)
+            {
+                temp=temp*10+input[i]-'0';
+            }
+        }
+        if(flag)
+            re.push_back(temp);
+        return re;
+    }
+};
