@@ -1,0 +1,34 @@
+//一行%4完事，但是希望你递归
+
+class Solution {
+public:
+    bool canWinNim(int n) {
+        if(n>=201782680)
+        {
+            return n%4!=0;
+        }
+        vector<int> re(n+1,0);
+        return canWin(re,n);
+    }
+    
+    bool canWin(vector<int>& re,int n)
+    {
+        if(re[n]!=0)
+            return re[n]==1?true:false;
+        if(n<=3)
+        {
+            re[n]=1;
+            return true;
+        }
+        for(int i=1;i<=3;++i)
+        {
+            if(!canWin(re,n-i))
+            {
+                re[n]=1;
+                return true;
+            }
+        }
+        re[n]=-1;
+        return false;
+    }
+};
