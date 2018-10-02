@@ -29,3 +29,36 @@ public:
         }
     }
 };
+
+//后来又写了一遍
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> re;
+        vector<int> temp;
+        permu(re,temp,nums);
+        return re;
+    }
+    
+    void permu(vector<vector<int>>& re,vector<int>& temp,vector<int>& nums)
+    {
+        if(nums.size()==0)
+        {
+            re.push_back(temp);
+            return;
+        }
+        for(int i=0;i<nums.size();++i)
+        {
+            if(i!=0&&nums[i]==nums[i-1])
+                continue;
+            int t=nums[i];
+            temp.push_back(t);
+            nums.erase(nums.begin()+i);
+            permu(re,temp,nums);
+            nums.insert(nums.begin()+i,t);
+            temp.pop_back();
+        }
+        
+    }
+};

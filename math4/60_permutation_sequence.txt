@@ -127,3 +127,49 @@ public:
         }
     }
 };
+
+
+//看了紫书之后受了启发，用递推
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<int> help;
+        for(int i=1;i<=n;++i)
+        {
+            help.push_back(i);
+        }
+        string re="";
+        int factorial=1;
+        int temp=n;
+        while(temp)
+        {
+            factorial*=temp;
+            --temp;
+        }
+        getPerm(n,help,k,re,factorial);
+        return re;
+    }
+    
+    void getPerm(int n,vector<int>& help,int k,string& re,int& factorial)
+    {
+        if(n==0||k==0)
+            return;
+        //cout<<"there"<<endl;
+        factorial/=n;
+        int start=0;
+        while(k>factorial)
+        {
+            k-=factorial;
+            ++start;
+        }
+        re+=char(help[start]+'0');
+        //cout<<re<<endl;
+        help.erase(help.begin()+start);
+        --n;
+        getPerm(n,help,k,re,factorial);
+        
+    }
+    
+    
+    
+};

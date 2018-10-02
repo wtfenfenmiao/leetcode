@@ -1,0 +1,59 @@
+//就是暴力方法。大整数溢出的问题，直接用字符串
+class Solution {
+public:
+    bool isAdditiveNumber(string num) {
+        for(int i=1;i<=num.size();++i)
+        {
+            for(int j=1;j<num.size();++j)
+            {
+                if(i+j+max(i,j)>num.size())
+                    continue;
+                if((num[0]=='0'&&i>1)||(num[i]=='0'&&j>1)||(num[i+j]=='0'&&(i+j)!=num.size()-1))
+                    continue;
+                string first=num.substr(0,i);
+                cout<<"first:"<<first<<endl;
+                string second=num.substr(i,j);
+                cout<<"second:"<<second<<endl;
+                cout<<"start:"<<i+j<<endl;
+                cout<<endl;
+                if(firstTwo(num,first,second,i+j))
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    bool firstTwo(string& num,string& first,string& second,int start)
+    {
+        while(start<num.size())
+        {
+            string third="";
+  
+            sumTwo(first,second,third);
+            cout<<"third:"<<third<<endl;
+            for(int i=0;i<third.size();++i)
+            {
+                if(start+i>num.size()||num[start+i]!=third[i])
+                    return false;
+            }
+            first=second;
+            second=third;
+            start+=third.size();
+        }
+        return true;
+    }
+    
+    void sumTwo(string& first,string& second,string& third)
+    {
+        int jinwei=0;
+        int i=first.size()-1;
+        int j=second.size()-1;
+        while(i>=0||j>=0||jinwei)
+        {
+            if(i>=0) {jinwei+=first[i]-'0'; --i;}
+            if(j>=0) {jinwei+=second[j]-'0'; --j;}
+            third=char(jinwei%10+'0')+third;
+            jinwei/=10;
+        } 
+    }
+};
