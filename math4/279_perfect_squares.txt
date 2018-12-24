@@ -18,8 +18,42 @@ public:
     }
 };
 
-
-
+//更慢的dp，上面那个还快一些，是递推。下面这个记忆化搜索慢成狗
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n<=1)
+            return n;
+        vector<int> re(n+1,0);
+        return dp(re,n);
+        
+    }
+    
+    bool issqrt(int n)
+    {
+        int temp=sqrt(n);
+        if(temp*temp==n)
+            return true;
+        else return false;
+    }
+    
+    int dp(vector<int>& re,int n)
+    {
+        if(re[n]!=0)
+            return re[n];
+        if(issqrt(n))
+        {
+            re[n]=1;
+            return re[n];
+        }
+        re[n]=n;
+        for(int i=2;i*i<n;++i)
+        {
+            re[n]=min(re[n],dp(re,i*i)+dp(re,n-i*i));
+        }
+        return re[n];
+    }
+};
 //数论，四平方和定理，答案只能是1234之一
 //速度贼快
 class Solution {
