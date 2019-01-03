@@ -98,3 +98,52 @@ public:
     
     
 };
+
+
+//树的dp，搞懂了
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        vector<vector<TreeNode*>> dpsave(n+1,vector<TreeNode*>());
+        if(n==0)
+            return dpsave[0];
+        dpsave[0]=vector<TreeNode*>(1,NULL);
+        
+        for(int i=1;i<=n;++i)
+        {
+            for(int j=0;j<i;++j)
+            {
+                for(auto le:dpsave[j])
+                {
+                    for(auto ri:dpsave[i-j-1])
+                    {
+                        TreeNode* root=new TreeNode(j+1);
+                        root->left=le;
+                        root->right=clone(ri,j+1);
+                        dpsave[i].push_back(root);
+                    }
+                }
+            }
+        }
+        return dpsave[n];
+    }
+    
+    TreeNode* clone(TreeNode* node,int a)
+    {
+        if(node==NULL)
+            return NULL;
+        TreeNode* re=new TreeNode(node->val+a);
+        re->right=clone(node->right,a);
+        re->left=clone(node->left,a);
+        return re;
+    }
+};

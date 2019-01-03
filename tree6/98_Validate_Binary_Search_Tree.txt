@@ -31,3 +31,32 @@ public:
         
     }
 };
+
+
+//这个递归，就和中序遍历的打印顺序一样，就是想着我要中序遍历打印出来这个树，这个print就和prev一样，每次打印一个节点，这个节点下一个要打印的节点上一个就是这个节点（这样说有点绕，就是依次打印，这个节点打印完，下一个节点上一个就是这个，就接上了）
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        TreeNode* prev=NULL;
+        return isValid(root,prev);
+    }
+    
+    bool isValid(TreeNode* root,TreeNode* & prev)
+    {
+        if(root==NULL)
+            return true;
+        if(!isValid(root->left,prev)) return false;
+        if(prev&&prev->val>=root->val) return false;
+        prev=root;   //在哪里打印，就在哪里更新prev，是一样的道理
+        return isValid(root->right,prev);
+    }
+};
